@@ -1,0 +1,47 @@
+{
+  "name": "unexpected-enzyme",
+  "version": "0.1.0",
+  "description": "unexpected plugin to test React components with enzyme",
+  "main": "dist/index.js",
+  "author": "Albert Fernandez <albert@nandez.cat>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "format": "prettier --write {config,src,test}/**/*.js",
+    "ci": "yarn format && yarn lint && yarn test"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "8.2.1",
+    "babel-jest": "^22.1.0",
+    "babel-preset-env": "1.6.1",
+    "babel-preset-react": "6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint": "^4.15.0",
+    "eslint-config-prettier": "^2.9.0",
+    "jest": "22.1.1",
+    "prettier": "1.10.2",
+    "raf": "^3.4.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-test-renderer": "16.2.0",
+    "sinon": "^4.1.6",
+    "unexpected": "^10.36.2",
+    "unexpected-react": "^5.0.1",
+    "unexpected-sinon": "^10.8.2"
+  },
+  "dependencies": {},
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setup.js",
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "setupFiles": [
+      "raf/polyfill"
+    ]
+  }
+}

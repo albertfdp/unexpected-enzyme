@@ -1,0 +1,15 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "prettier",
+    "prettier/react",
+    "prettier/standard"
+  ],
+  "globals": {
+    "__DEV__": false,
+    "__PRODUCTION__": false,
+    "describe": false,
+    "it": false,
+    "beforeEach": false
+  }
+}
