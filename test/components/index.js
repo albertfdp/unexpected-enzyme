@@ -1,28 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Foo = ({ bar, onButtonClick }) =>
+export const Foo = ({ bar, onButtonClick }) => (
   <div>
     <button onClick={onButtonClick}>Click me</button>
     {bar}
-  </div>;
+  </div>
+);
 
 Foo.propTypes = {
   bar: PropTypes.string,
   onButtonClick: PropTypes.func
 };
 
-export const TodoList = () =>
+export const TodoList = () => (
   <ul className="todo">
     <TodoItem item="One" />
     <TodoItem item="Two" />
     <TodoItem item="Three" />
-  </ul>;
+  </ul>
+);
 
-export const TodoItem = ({ item }) =>
-  <li className="item">
-    {item}
-  </li>;
+export const TodoItem = ({ item }) => <li className="item">{item}</li>;
 
 TodoItem.propTypes = {
   item: PropTypes.string

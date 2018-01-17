@@ -2,14 +2,6 @@ const fullRenderAssertions = function(expect) {
   expect.addAssertion(
     ['<ReactWrapper> [not] to be checked'],
     (expect, reactWrapper) => {
-      expect.subjectOutput = output => {
-        output
-          .text('Wrapper ')
-          .text('[')
-          .appendInspected(reactWrapper)
-          .text(']');
-      };
-
       expect(reactWrapper.instance().checked, '[not] to be true');
     }
   );
