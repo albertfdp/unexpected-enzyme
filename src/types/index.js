@@ -3,7 +3,7 @@ import ReactWrapper from './ReactWrapper';
 
 const types = {
   installInto: function(expect) {
-    expect.addType(ReactElement);
+    // expect.addType(ReactElement);
 
     expect.addType(ReactWrapper);
   }

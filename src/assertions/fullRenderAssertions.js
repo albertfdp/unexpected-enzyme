@@ -7,6 +7,15 @@ const fullRenderAssertions = function(expect) {
   );
 
   expect.addAssertion(
+    ['<ReactWrapper> [not] to contain <ReactElement>'],
+    (expect, reactWrapper, reactElement) => {
+      expect.errorMode = 'bubble';
+
+      expect(reactWrapper.instance(), '[not] to contain', reactElement);
+    }
+  );
+
+  expect.addAssertion(
     ['<ReactWrapper> [not] to have props satisfying <object>'],
     (expect, reactWrapper, props) => {
       expect(reactWrapper.props(), '[not] to satisfy', props);

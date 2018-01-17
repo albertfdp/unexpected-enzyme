@@ -1,6 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+export const User = ({ index }) => <span>User {index}</span>;
+
+export class UserList extends React.Component {
+  render() {
+    return (
+      <div>
+        <ul>
+          <li>
+            <User index={1} />
+          </li>
+          <li>
+            <User index={2} />
+            <User index={3} />
+          </li>
+        </ul>
+      </div>
+    );
+  }
+}
+
 export const Foo = ({ bar, onButtonClick }) => (
   <div>
     <button onClick={onButtonClick}>Click me</button>

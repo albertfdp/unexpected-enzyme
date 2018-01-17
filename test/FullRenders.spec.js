@@ -3,13 +3,33 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import React from 'react';
-import { Foo } from './components';
+import { Foo, User, UserList } from './components';
 
 describe('FullDOMRendering', () => {
   let wrapper;
 
-  beforeEach(() => {
-    wrapper = mount(<Foo bar="baz" />);
+  describe('to contain', () => {
+    beforeEach(() => {
+      wrapper = mount(<UserList />);
+    });
+
+    it('contains a single User', () => {
+      expect(wrapper, 'to contain', <User index={1} />);
+    });
+
+    it('not to contain', () => {
+      expect(wrapper, 'not to contain', <User index={4} />);
+    });
+
+    describe('failed assertion', () => {
+      it('contains a single User', () => {
+        expect(wrapper, 'to contain', <User index={4} />);
+      });
+
+      it('not to contain', () => {
+        expect(wrapper, 'not to contain', <User index={1} />);
+      });
+    });
   });
 
   describe('checked', () => {
@@ -32,7 +52,7 @@ describe('FullDOMRendering', () => {
       expect(wrapper.find('#not'), 'not to be checked');
     });
 
-    describe('when it fails', () => {
+    describe.skip('when it fails', () => {
       it('renders a comprensible error message', () => {
         expect(wrapper.find('#not'), 'to be checked');
       });
