@@ -1,11 +1,15 @@
+import React from 'react';
+
 import ReactElement from './ReactElement';
 import ReactWrapper from './ReactWrapper';
 
 const types = {
-  installInto: function(expect) {
-    // expect.addType(ReactElement);
+  installInto: function(childExpect) {
+    var ReactElementType = childExpect.getType('ReactElement');
 
-    expect.addType(ReactWrapper);
+    childExpect.exportType(ReactElementType);
+
+    childExpect.exportType(ReactWrapper);
   }
 };
 

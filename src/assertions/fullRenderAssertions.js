@@ -1,12 +1,12 @@
-const fullRenderAssertions = function(expect) {
-  expect.addAssertion(
+const fullRenderAssertions = function(childExpect) {
+  childExpect.exportAssertion(
     ['<ReactWrapper> [not] to be checked'],
     (expect, reactWrapper) => {
       expect(reactWrapper.instance().checked, '[not] to be true');
     }
   );
 
-  expect.addAssertion(
+  childExpect.exportAssertion(
     ['<ReactWrapper> [not] to contain <ReactElement>'],
     (expect, reactWrapper, reactElement) => {
       expect.errorMode = 'bubble';
@@ -15,21 +15,21 @@ const fullRenderAssertions = function(expect) {
     }
   );
 
-  expect.addAssertion(
+  childExpect.exportAssertion(
     ['<ReactWrapper> [not] to have props satisfying <object>'],
     (expect, reactWrapper, props) => {
       expect(reactWrapper.props(), '[not] to satisfy', props);
     }
   );
 
-  expect.addAssertion(
+  childExpect.exportAssertion(
     ['<ReactWrapper> when setting props <object> <assertion>'],
     (expect, reactWrapper, props) => {
       expect.shift(reactWrapper.setProps(props));
     }
   );
 
-  expect.addAssertion(
+  childExpect.exportAssertion(
     ['<ReactWrapper> when receiving event <string>'],
     (expect, reactWrapper, event) => {
       expect.shift(reactWrapper.simulate(event));

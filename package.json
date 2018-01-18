@@ -31,10 +31,11 @@
     "react-test-renderer": "16.2.0",
     "sinon": "^4.1.6",
     "unexpected": "^10.36.2",
-    "unexpected-react": "^5.0.1",
     "unexpected-sinon": "^10.8.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "unexpected-react": "^5.0.1"
+  },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/test/setup.js",
     "transform": {
