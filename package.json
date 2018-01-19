@@ -30,8 +30,11 @@
     "react-dom": "16.2.0",
     "react-test-renderer": "16.2.0",
     "sinon": "^4.1.6",
-    "unexpected": "^10.36.2",
+    "unexpected": "10.36.3",
     "unexpected-sinon": "^10.8.2"
+  },
+  "peerDependencies": {
+    "unexpected": "^10.36.3"
   },
   "dependencies": {
     "unexpected-react": "^5.0.1"
@@ -41,8 +44,6 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "setupFiles": [
-      "raf/polyfill"
-    ]
+    "setupFiles": ["raf/polyfill"]
   }
 }
