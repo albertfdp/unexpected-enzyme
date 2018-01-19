@@ -1,38 +1,38 @@
 const fullRenderAssertions = function(childExpect) {
   childExpect.exportAssertion(
-    ['<ReactWrapper> [not] to be checked'],
+    '<ReactWrapper> [not] to be checked',
     (expect, reactWrapper) => {
       expect(reactWrapper.instance().checked, '[not] to be true');
     }
   );
 
   childExpect.exportAssertion(
-    ['<ReactWrapper> [not] to contain <ReactElement>'],
+    '<ReactWrapper> [not] to contain <ReactElement>',
     (expect, reactWrapper, reactElement) => {
       expect.errorMode = 'bubble';
 
-      expect(reactWrapper.instance(), '[not] to contain', reactElement);
+      return expect(reactWrapper.instance(), '[not] to contain', reactElement);
     }
   );
 
   childExpect.exportAssertion(
-    ['<ReactWrapper> [not] to have props satisfying <object>'],
+    '<ReactWrapper> [not] to have props satisfying <object>',
     (expect, reactWrapper, props) => {
-      expect(reactWrapper.props(), '[not] to satisfy', props);
+      return expect(reactWrapper.props(), '[not] to satisfy', props);
     }
   );
 
   childExpect.exportAssertion(
-    ['<ReactWrapper> when setting props <object> <assertion>'],
+    '<ReactWrapper> when setting props <object> <assertion>',
     (expect, reactWrapper, props) => {
-      expect.shift(reactWrapper.setProps(props));
+      return expect.shift(reactWrapper.setProps(props));
     }
   );
 
   childExpect.exportAssertion(
-    ['<ReactWrapper> when receiving event <string>'],
+    '<ReactWrapper> when receiving event <string>',
     (expect, reactWrapper, event) => {
-      expect.shift(reactWrapper.simulate(event));
+      return expect.shift(reactWrapper.simulate(event));
     }
   );
 };
