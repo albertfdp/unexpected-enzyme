@@ -58,4 +58,76 @@ describe('FullDOMRendering', () => {
       });
     });
   });
+
+  describe('to have class', () => {
+    it('handles a missing className', () => {
+      expect(
+        () => {
+          expect(mount(<div>Hello</div>), 'to have class', 'foo');
+        },
+        'to throw',
+        "expected <div>Hello</div> to have class 'foo'"
+      );
+    });
+
+    it('succeeds when the element has the class', () => {
+      expect(() => {
+        expect(
+          mount(<div className="foo bar">Hello</div>),
+          'to have class',
+          'foo'
+        );
+      }, 'not to throw');
+    });
+
+    it('fails with a descriptive error message when the class is not present', () => {
+      expect(
+        () => {
+          expect(
+            mount(<div className="bar baz">Hello</div>),
+            'to have class',
+            'foo'
+          );
+        },
+        'to throw',
+        'expected <div className="bar baz">Hello</div> to have class \'foo\''
+      );
+    });
+  });
+
+  describe('not to have class', () => {
+    it('handles a missing className', () => {
+      expect(mount(<div>Hello</div>), 'not to have class', 'foo');
+    });
+
+    it('succeeds when the element does not have the class', () => {
+      expect(
+        mount(<div className="foo bar">Hello</div>),
+        'not to have class',
+        'baz'
+      );
+    });
+
+    it('fails with a descriptive error message when the class is present', () => {
+      expect(
+        () => {
+          expect(
+            mount(<div className="foo bar baz">Hello</div>),
+            'not to have class',
+            'foo'
+          );
+        },
+        'to throw',
+        [
+          'expected <div className="foo bar baz">Hello</div> not to have class \'foo\'',
+          '',
+          '[',
+          "  'foo', // should be removed",
+          "  'bar',",
+          "  'baz'",
+          ']'
+        ].join('\n')
+      );
+    });
+  });
 });

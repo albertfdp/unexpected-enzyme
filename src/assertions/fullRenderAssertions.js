@@ -35,6 +35,16 @@ const fullRenderAssertions = function(childExpect) {
       return expect.shift(reactWrapper.simulate(event));
     }
   );
+
+  childExpect.exportAssertion(
+    '<ReactWrapper> [not] to have class <string>',
+    (expect, reactWrapper, className) => {
+      if (expect.flags.not === reactWrapper.hasClass(className)) {
+        const classes = (reactWrapper.prop('className') || '').split(' ');
+        expect(classes, '[not] to contain', className);
+      }
+    }
+  );
 };
 
 export default fullRenderAssertions;
