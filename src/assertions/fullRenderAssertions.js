@@ -9,9 +9,17 @@ const fullRenderAssertions = function(childExpect) {
   childExpect.exportAssertion(
     '<ReactWrapper> [not] to contain <ReactElement>',
     (expect, reactWrapper, reactElement) => {
-      expect.errorMode = 'bubble';
+      if (
+        expect.flags.not === reactWrapper.containsMatchingElement(reactElement)
+      ) {
+        expect.errorMode = 'bubble';
 
-      return expect(reactWrapper.instance(), '[not] to contain', reactElement);
+        return expect(
+          reactWrapper.instance(),
+          '[not] to contain with all wrappers',
+          reactElement
+        );
+      }
     }
   );
 

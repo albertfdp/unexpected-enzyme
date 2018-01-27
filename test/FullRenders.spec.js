@@ -27,7 +27,7 @@ describe('FullDOMRendering', () => {
       });
 
       it('not to contain', () => {
-        expect(wrapper, 'not to contain', <User index={1} />);
+        expect(wrapper, 'not to contain', <User index={2} />);
       });
     });
   });

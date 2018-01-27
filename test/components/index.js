@@ -12,7 +12,7 @@ export class UserList extends React.Component {
             <User index={1} />
           </li>
           <li>
-            <User index={2} />
+            <User index={2} data-meta="foobar" />
             <User index={3} />
           </li>
         </ul>
