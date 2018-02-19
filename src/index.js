@@ -54,6 +54,13 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> [not] to have props <array>',
+      (expect, reactWrapper, props) => {
+        return expect(reactWrapper.props(), '[not] to have keys', props);
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> when setting props <object> <assertion>',
       (expect, reactWrapper, props) => {
         return expect.shift(reactWrapper.setProps(props));
