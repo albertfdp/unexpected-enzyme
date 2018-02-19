@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-have-props-satisfying fails when the actual does not match the expected 1`] = `
+"expected <User name=\\"Harriet Banks\\" email=\\"harriet.banks@kinetar.com\\" /> to have props satisfying { name: /Foo$/, email: 'harriet.banks@kinetar.com' }
+
+{
+  name: 'Harriet Banks', // should match /Foo$/
+  email: 'harriet.banks@kinetar.com'
+}"
+`;
