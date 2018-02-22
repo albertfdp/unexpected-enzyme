@@ -38,7 +38,7 @@ const unexpectedEnzyme = {
           expect.errorMode = 'bubble';
 
           return expect(
-            reactWrapper.instance(),
+            reactWrapper.getElement(),
             '[not] to contain with all wrappers',
             reactElement
           );
