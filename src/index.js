@@ -92,6 +92,15 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      ['<ReactWrapper> [not] to exist', '<ReactWrapper> [not] to be present'],
+      (expect, reactWrapper) => {
+        expect.errorMode = 'bubble';
+
+        return expect(reactWrapper.exists(), '[not] to be true');
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> when setting props <object> <assertion>',
       (expect, reactWrapper, props) => {
         return expect.shift(reactWrapper.setProps(props));

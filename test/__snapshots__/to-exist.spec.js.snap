@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-have-props-satisfying fails when the actual does not match the expected 1`] = `"expected true not to be true"`;
