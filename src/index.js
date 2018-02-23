@@ -46,6 +46,13 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> to have state satisfying <object>',
+      (expect, reactWrapper, state) => {
+        return expect(reactWrapper.state(), 'to satisfy', state);
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> to have props satisfying <object>',
       (expect, reactWrapper, props) => {
         return expect(reactWrapper.props(), 'to satisfy', props);
