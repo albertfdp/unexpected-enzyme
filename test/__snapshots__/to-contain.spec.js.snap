@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-contain fails when the actual does not match the expected 1`] = `
+"expected <Fixture /> to contain with all wrappers <User id={4} />
+
+the best match was
+<Fixture // should be <User
+   // missing id={4}
+/>"
+`;

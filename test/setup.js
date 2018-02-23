@@ -1,4 +1,4 @@
-import unexpectedReact from 'unexpected-react';
+import unexpectedEnzyme from '../src';
 
 import Enzyme from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
@@ -8,5 +8,5 @@ Enzyme.configure({
 });
 
 afterEach(() => {
-  unexpectedReact.clearAll();
+  unexpectedEnzyme.clearAll();
 });
