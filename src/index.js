@@ -1,5 +1,5 @@
-import unexpectedReact from 'unexpected-react';
-import ReactWrapper from 'enzyme/build/ReactWrapper';
+const unexpectedReact = require('unexpected-react');
+const ReactWrapper = require('enzyme/build/ReactWrapper').default;
 
 const unexpectedEnzyme = {
   name: 'unexpected-enzyme',
@@ -87,4 +87,4 @@ const unexpectedEnzyme = {
 
 unexpectedEnzyme.clearAll = unexpectedReact.clearAll;
 
-export default unexpectedEnzyme;
+module.exports = unexpectedEnzyme;

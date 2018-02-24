@@ -10,7 +10,9 @@
     "test:watch": "jest --watch",
     "lint": "eslint .",
     "format": "prettier --write {config,src,test}/**/*.js",
-    "ci": "yarn format && yarn lint && yarn test"
+    "ci": "yarn format && yarn lint && yarn test",
+    "site:generate": "generate-site --require ./scripts/bootstrap.js",
+    "site:update": "generate-site --require ./scripts/bootstrap.js --update-examples"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -33,6 +35,8 @@
     "react-test-renderer": "16.2.0",
     "sinon": "^4.4.1",
     "unexpected": "10.37.2",
+    "unexpected-documentation-site-generator": "^4.6.1",
+    "unexpected-markdown": "^1.7.4",
     "unexpected-sinon": "^10.8.2"
   },
   "peerDependencies": {
