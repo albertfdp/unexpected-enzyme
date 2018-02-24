@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "label": "to have props satisfying (ReactWrapper)",
+    "url": "/assertions/ReactWrapper/to-have-props-satisfying/"
+  }
+]
