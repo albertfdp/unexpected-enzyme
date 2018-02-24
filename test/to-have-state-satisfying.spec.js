@@ -34,28 +34,78 @@ class Counter extends Component {
 }
 
 describe('to-have-state-satisfying', () => {
-  it('passes when the passed matches the expected', () => {
-    const wrapper = mount(<Counter count={0} />);
+  describe('<assertion>', () => {
+    describe('to-have-state', () => {
+      it('passes when the actual matches the expected', () => {
+        const wrapper = mount(<Counter count={0} />);
 
-    expect(wrapper, 'to have state satisfying', {
-      count: 0
-    });
+        expect(wrapper, 'to have state satisfying to have keys', ['count']);
 
-    wrapper.find('button').simulate('click');
+        wrapper.find('button').simulate('click');
 
-    expect(wrapper, 'to have state satisfying', {
-      count: 1
+        expect(wrapper, 'to have state satisfying to have keys', ['count']);
+      });
+
+      it('fails when the actual does not match the expected', () => {
+        expect(
+          () =>
+            expect(
+              mount(<Counter count={0} />),
+              'to have state satisfying to have keys',
+              ['caunt', 'number']
+            ),
+          'with error matching snapshot'
+        );
+      });
+
+      describe('when negated', () => {
+        it('passes when the actual does not match the expected', () => {
+          expect(
+            mount(<Counter count={0} />),
+            'to have state satisfying not to have keys',
+            ['foobar']
+          );
+        });
+
+        it('fails when the actual does match the expected', () => {
+          expect(
+            () =>
+              expect(
+                mount(<Counter count={0} />),
+                'to have state satisfying not to have keys',
+                ['count']
+              ),
+            'with error matching snapshot'
+          );
+        });
+      });
     });
   });
 
-  it('fails when the actual does not match the expected', () => {
-    expect(
-      () =>
-        expect(mount(<Counter count={0} />), 'to have state satisfying', {
-          count: 3,
-          number: 0
-        }),
-      'with error matching snapshot'
-    );
+  describe('<object>', () => {
+    it('passes when the passed matches the expected', () => {
+      const wrapper = mount(<Counter count={0} />);
+
+      expect(wrapper, 'to have state satisfying', {
+        count: 0
+      });
+
+      wrapper.find('button').simulate('click');
+
+      expect(wrapper, 'to have state satisfying', {
+        count: 1
+      });
+    });
+
+    it('fails when the actual does not match the expected', () => {
+      expect(
+        () =>
+          expect(mount(<Counter count={0} />), 'to have state satisfying', {
+            count: 3,
+            number: 0
+          }),
+        'with error matching snapshot'
+      );
+    });
   });
 });

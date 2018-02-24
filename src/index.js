@@ -5,7 +5,7 @@ const unexpectedEnzyme = {
   name: 'unexpected-enzyme',
 
   installInto: function(expect) {
-    var childExpect = expect.child();
+    const childExpect = expect.child();
     childExpect.use(unexpectedReact);
 
     childExpect.exportType(childExpect.getType('ReactElement'));
@@ -53,9 +53,9 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to have state <array>',
-      (expect, reactWrapper, state) => {
-        return expect(reactWrapper.state(), '[not] to have keys', state);
+      '<ReactWrapper> to have state satisfying <assertion>',
+      (expect, reactWrapper) => {
+        return expect.shift(reactWrapper.state());
       }
     );
 

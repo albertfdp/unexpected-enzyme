@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`to-have-state fails when the actual does not match the expected 1`] = `"expected <Counter count={0} /> to have state [ 'caunt', 'number' ]"`;
-
-exports[`to-have-state when negated fails when the actual does match the expected 1`] = `"expected <Counter count={0} /> not to have state [ 'count' ]"`;
