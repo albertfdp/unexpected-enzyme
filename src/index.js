@@ -96,7 +96,7 @@ const unexpectedEnzyme = {
       (expect, reactWrapper) => {
         expect.errorMode = 'bubble';
 
-        return expect(reactWrapper.exists(), '[not] to be true');
+        return expect(reactWrapper.exists(), '[not] to be', true);
       }
     );
 

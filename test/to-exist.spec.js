@@ -1,6 +1,6 @@
 import expect from './unexpected-enzyme';
 import { mount } from 'enzyme';
-import React, { Component } from 'react';
+import React from 'react';
 
 class Fixture extends React.Component {
   render() {
@@ -12,8 +12,6 @@ class Fixture extends React.Component {
   }
 }
 
-const NullFixture = () => null;
-
 describe('to-have-props-satisfying', () => {
   it('passes when the actual matches the expected', () => {
     const wrapper = mount(<Fixture />);
@@ -21,7 +19,22 @@ describe('to-have-props-satisfying', () => {
     expect(wrapper.find('#parent'), 'to exist');
   });
 
+  it('passes negated when the actual matches the expected', () => {
+    const wrapper = mount(<Fixture />);
+
+    expect(wrapper.find('#foo'), 'not to exist');
+  });
+
   it('fails when the actual does not match the expected', () => {
+    const wrapper = mount(<Fixture />);
+
+    expect(
+      () => expect(wrapper.find('#foobar'), 'to exist'),
+      'with error matching snapshot'
+    );
+  });
+
+  it('fails when the actual negated matches the expected', () => {
     const wrapper = mount(<Fixture />);
 
     expect(
