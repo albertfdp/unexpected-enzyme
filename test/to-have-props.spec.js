@@ -1,6 +1,7 @@
 import expect from './unexpected-enzyme';
 import { mount } from 'enzyme';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class User extends Component {
   render() {
@@ -14,6 +15,11 @@ class User extends Component {
     );
   }
 }
+
+User.propTypes = {
+  name: PropTypes.string,
+  email: PropTypes.string
+};
 
 describe('to-have-props', () => {
   it('passes when the actual matches the expected', () => {

@@ -1,5 +1,4 @@
 import unexpectedReact from 'unexpected-react';
-import React from 'react';
 import ReactWrapper from 'enzyme/build/ReactWrapper';
 
 const unexpectedEnzyme = {

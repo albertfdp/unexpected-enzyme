@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 export const User = ({ index }) => <span>User {index}</span>;
 
+User.propTypes = {
+  index: PropTypes.number
+};
+
 export class UserList extends React.Component {
   render() {
     return (

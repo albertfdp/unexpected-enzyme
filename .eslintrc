@@ -1,15 +1,24 @@
 {
   "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "import"
+  ],
   "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:react/recommended",
     "prettier",
     "prettier/react",
     "prettier/standard"
   ],
   "globals": {
-    "__DEV__": false,
-    "__PRODUCTION__": false,
     "describe": false,
     "it": false,
+    "afterEach": false,
     "beforeEach": false
   }
 }

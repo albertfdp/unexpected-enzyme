@@ -1,8 +1,13 @@
 import expect from './unexpected-enzyme';
 import { mount } from 'enzyme';
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const User = ({ id }) => <span>User {id}</span>;
+
+User.propTypes = {
+  id: PropTypes.number
+};
 
 const Fixture = () => (
   <div>
