@@ -12,7 +12,8 @@
     "format": "prettier --write {config,src,test}/**/*.js",
     "ci": "yarn format && yarn lint && yarn test",
     "site:generate": "generate-site --require ./scripts/bootstrap.js",
-    "site:update": "generate-site --require ./scripts/bootstrap.js --update-examples"
+    "site:update": "generate-site --require ./scripts/bootstrap.js --update-examples",
+    "site:deploy": "npm run site:update && gh-pages -d site-build"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -27,6 +28,7 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-react": "^7.7.0",
+    "gh-pages": "^1.1.0",
     "jest": "22.4.2",
     "prettier": "1.10.2",
     "raf": "^3.4.0",
