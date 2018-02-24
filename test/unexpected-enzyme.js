@@ -5,6 +5,8 @@ import unexpectedSinon from 'unexpected-sinon';
 
 const jestExpect = global.expect;
 
+unexpected.output.preferredWidth = 80;
+
 export default unexpected
   .clone()
   .use(unexpectedSinon)
