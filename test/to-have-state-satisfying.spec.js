@@ -2,6 +2,18 @@ import expect from './unexpected-enzyme';
 import { mount } from 'enzyme';
 import React, { Component } from 'react';
 
+class Fixture extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = this.props.state;
+  }
+
+  render() {
+    return <div>Fixture</div>;
+  }
+}
+
 class Counter extends Component {
   constructor(props) {
     super(props);
@@ -35,49 +47,47 @@ class Counter extends Component {
 
 describe('to-have-state-satisfying', () => {
   describe('<assertion>', () => {
-    describe('to-have-state', () => {
-      it('passes when the actual matches the expected', () => {
-        const wrapper = mount(<Counter count={0} />);
+    it('passes when the actual matches the expected', () => {
+      const wrapper = mount(<Counter count={0} />);
 
-        expect(wrapper, 'to have state satisfying to have keys', ['count']);
+      expect(wrapper, 'to have state satisfying to have keys', ['count']);
 
-        wrapper.find('button').simulate('click');
+      wrapper.find('button').simulate('click');
 
-        expect(wrapper, 'to have state satisfying to have keys', ['count']);
+      expect(wrapper, 'to have state satisfying to have keys', ['count']);
+    });
+
+    it('fails when the actual does not match the expected', () => {
+      expect(
+        () =>
+          expect(
+            mount(<Counter count={0} />),
+            'to have state satisfying to have keys',
+            ['caunt', 'number']
+          ),
+        'with error matching snapshot'
+      );
+    });
+
+    describe('when negated', () => {
+      it('passes when the actual does not match the expected', () => {
+        expect(
+          mount(<Counter count={0} />),
+          'to have state satisfying not to have keys',
+          ['foobar']
+        );
       });
 
-      it('fails when the actual does not match the expected', () => {
+      it('fails when the actual does match the expected', () => {
         expect(
           () =>
             expect(
               mount(<Counter count={0} />),
-              'to have state satisfying to have keys',
-              ['caunt', 'number']
+              'to have state satisfying not to have keys',
+              ['count']
             ),
           'with error matching snapshot'
         );
-      });
-
-      describe('when negated', () => {
-        it('passes when the actual does not match the expected', () => {
-          expect(
-            mount(<Counter count={0} />),
-            'to have state satisfying not to have keys',
-            ['foobar']
-          );
-        });
-
-        it('fails when the actual does match the expected', () => {
-          expect(
-            () =>
-              expect(
-                mount(<Counter count={0} />),
-                'to have state satisfying not to have keys',
-                ['count']
-              ),
-            'with error matching snapshot'
-          );
-        });
       });
     });
   });
@@ -94,6 +104,14 @@ describe('to-have-state-satisfying', () => {
 
       expect(wrapper, 'to have state satisfying', {
         count: 1
+      });
+    });
+
+    describe('with state as null', () => {
+      it('passes when the actual matches the expected', () => {
+        const wrapper = mount(<Fixture state={null} />);
+
+        expect(wrapper, 'to have state satisfying', null);
       });
     });
 

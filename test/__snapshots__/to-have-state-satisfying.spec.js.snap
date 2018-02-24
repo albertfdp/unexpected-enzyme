@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`to-have-state-satisfying <assertion> to-have-state fails when the actual does not match the expected 1`] = `
+exports[`to-have-state-satisfying <assertion> fails when the actual does not match the expected 1`] = `
 "expected <Counter count={0} />
 to have state satisfying to have keys [ 'caunt', 'number' ]"
 `;
 
-exports[`to-have-state-satisfying <assertion> to-have-state when negated fails when the actual does match the expected 1`] = `
+exports[`to-have-state-satisfying <assertion> when negated fails when the actual does match the expected 1`] = `
 "expected <Counter count={0} />
 to have state satisfying not to have keys [ 'count' ]"
 `;
