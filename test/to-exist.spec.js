@@ -18,7 +18,6 @@ describe('to-have-props-satisfying', () => {
   it('passes when the actual matches the expected', () => {
     const wrapper = mount(<Fixture />);
 
-    expect(wrapper.find('#parent'), 'to be present');
     expect(wrapper.find('#parent'), 'to exist');
   });
 
@@ -26,7 +25,7 @@ describe('to-have-props-satisfying', () => {
     const wrapper = mount(<Fixture />);
 
     expect(
-      () => expect(wrapper.find('#parent'), 'not to be present'),
+      () => expect(wrapper.find('#parent'), 'not to exist'),
       'with error matching snapshot'
     );
   });

@@ -92,7 +92,7 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      ['<ReactWrapper> [not] to exist', '<ReactWrapper> [not] to be present'],
+      '<ReactWrapper> [not] to exist',
       (expect, reactWrapper) => {
         expect.errorMode = 'bubble';
 
