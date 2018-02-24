@@ -1,6 +1,7 @@
 import expect from './unexpected-enzyme';
 import { mount } from 'enzyme';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Fixture extends Component {
   constructor(props) {
@@ -13,6 +14,10 @@ class Fixture extends Component {
     return <div>Fixture</div>;
   }
 }
+
+Fixture.propTypes = {
+  state: PropTypes.any
+};
 
 class Counter extends Component {
   constructor(props) {
@@ -44,6 +49,10 @@ class Counter extends Component {
     );
   }
 }
+
+Counter.propTypes = {
+  count: PropTypes.number
+};
 
 describe('to-have-state-satisfying', () => {
   describe('<assertion>', () => {
