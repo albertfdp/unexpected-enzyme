@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`to-contain fails when the actual does not match the expected 1`] = `
+exports[`to-contain <ReactElement> fails when the actual does not match the expected 1`] = `
 "expected <Fixture /> to contain with all wrappers <User id={4} />
 
 the best match was
@@ -8,3 +8,5 @@ the best match was
    // missing id={4}
 />"
 `;
+
+exports[`to-contain <selector> fails when the actual does not match the expected 1`] = `"expected <Fixture /> to contain '#user-4'"`;

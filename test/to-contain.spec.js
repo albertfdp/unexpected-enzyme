@@ -3,7 +3,11 @@ import { mount } from 'enzyme';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const User = ({ id }) => <span>User {id}</span>;
+const User = ({ id }) => (
+  <span className="user" id={`user-${id}`}>
+    User {id}
+  </span>
+);
 
 User.propTypes = {
   id: PropTypes.number
@@ -24,21 +28,37 @@ const Fixture = () => (
 );
 
 describe('to-contain', () => {
-  it('passes when the actual matches the expected', () => {
-    expect(mount(<Fixture />), 'to contain', <User id={1} />);
-    expect(mount(<Fixture />), 'to contain', <User id={2} />);
+  describe('<ReactElement>', () => {
+    it('passes when the actual matches the expected', () => {
+      expect(mount(<Fixture />), 'to contain', <User id={1} />);
+      expect(mount(<Fixture />), 'to contain', <User id={2} />);
+    });
+
+    it('fails when the actual does not match the expected', () => {
+      expect(
+        () => expect(mount(<Fixture />), 'to contain', <User id={4} />),
+        'with error matching snapshot'
+      );
+    });
+
+    describe('when negated', () => {
+      it('passes negated when the actual does not match the expected', () => {
+        expect(mount(<Fixture />), 'not to contain', <User id={4} />);
+      });
+    });
   });
 
-  it('fails when the actual does not match the expected', () => {
-    expect(
-      () => expect(mount(<Fixture />), 'to contain', <User id={4} />),
-      'with error matching snapshot'
-    );
-  });
+  describe('<selector>', () => {
+    it('passes when the actual matches the expected', () => {
+      expect(mount(<Fixture />), 'to contain', '#user-1');
+      expect(mount(<Fixture />), 'to contain', '#user-2');
+    });
 
-  describe('when negated', () => {
-    it('passes negated when the actual does not match the expected', () => {
-      expect(mount(<Fixture />), 'not to contain', <User id={4} />);
+    it('fails when the actual does not match the expected', () => {
+      expect(
+        () => expect(mount(<Fixture />), 'to contain', '#user-4'),
+        'with error matching snapshot'
+      );
     });
   });
 });

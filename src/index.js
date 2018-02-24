@@ -60,6 +60,17 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> [not] to contain <string>',
+      (expect, reactWrapper, selector) => {
+        return expect(
+          reactWrapper.find(selector).exists(),
+          '[not] to be',
+          true
+        );
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> to have props satisfying <object>',
       (expect, reactWrapper, props) => {
         return expect(reactWrapper.props(), 'to satisfy', props);
