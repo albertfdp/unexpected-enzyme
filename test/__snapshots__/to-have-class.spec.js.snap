@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-have-class fails when the actual does not match the expected 1`] = `
+"expected <div className=\\"root top\\"><span className=\\"child bottom\\">test</span></div>
+to have class 'hotpink'"
+`;
+
+exports[`to-have-class fails when the actual does not match the expected 2`] = `
+"expected <div className=\\"root top\\"><span className=\\"child bottom\\">test</span></div>
+to have class 'rot top'"
+`;
