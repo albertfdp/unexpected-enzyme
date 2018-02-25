@@ -87,6 +87,13 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> to have context satisfying <object>',
+      (expect, reactWrapper, context) => {
+        return expect(reactWrapper.context(), 'to satisfy', context);
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> [not] to contain <string>',
       (expect, reactWrapper, selector) => {
         return expect(

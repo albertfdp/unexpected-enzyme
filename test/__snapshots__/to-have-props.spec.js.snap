@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`to-have-props fails when the actual does not match the expected 1`] = `
-"expected <User name=\\"Harriet Banks\\" email=\\"harriet.banks@kinetar.com\\" />
+"expected <User name=\\"Harriet Smith\\" email=\\"harriet.smith@example.tld\\" />
 to have props [ 'name', 'account' ]"
 `;
 

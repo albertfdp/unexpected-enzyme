@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 class User extends Component {
   render() {
-    const { name, email } = this.props;
+    const { name, email } = this.context;
 
     return (
       <div className="user">
@@ -16,18 +16,20 @@ class User extends Component {
   }
 }
 
-User.propTypes = {
+User.contextTypes = {
   name: PropTypes.string,
   email: PropTypes.string
 };
 
-describe('to-have-props-satisfying', () => {
+describe('to-have-context-satisfying', () => {
   it('passes when the passed matches the expected', () => {
     expect(
-      mount(<User name="Harriet Smith" email="harriet.smith@example.tld" />),
-      'to have props satisfying',
+      mount(<User />, {
+        context: { name: 'Harriet Smith', email: 'harriet.smith@example.tld' }
+      }),
+      'to have context satisfying',
       {
-        name: /Smith$/,
+        name: /Smith/,
         email: 'harriet.smith@example.tld'
       }
     );
@@ -37,10 +39,13 @@ describe('to-have-props-satisfying', () => {
     expect(
       () =>
         expect(
-          mount(
-            <User name="Harriet Smith" email="harriet.smith@example.tld" />
-          ),
-          'to have props satisfying',
+          mount(<User />, {
+            context: {
+              name: 'Harriet Smith',
+              email: 'harriet.smith@example.tld'
+            }
+          }),
+          'to have context satisfying',
           {
             name: /Foo$/,
             email: 'harriet.smith@example.tld'
