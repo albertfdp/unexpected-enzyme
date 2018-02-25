@@ -5,28 +5,22 @@ import React from 'react';
 const Foo = () => <div>This is</div>;
 
 describe('to-render-text', () => {
-  it('passes when actual matches the expected', () => {
-    expect(
-      mount(
-        <div>
-          <b>important</b>
-        </div>
-      ),
-      'to render text',
-      'important'
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = mount(
+      <div>
+        <b>important</b>
+      </div>
     );
   });
 
+  it('passes when actual matches the expected', () => {
+    expect(wrapper, 'to render text', 'important');
+  });
+
   it('passes negated when actual does not match the expected', () => {
-    expect(
-      mount(
-        <div>
-          <b>important</b>
-        </div>
-      ),
-      'not to render text',
-      'unimportant'
-    );
+    expect(wrapper, 'not to render text', 'unimportant');
   });
 
   describe('when nested', () => {
@@ -45,15 +39,21 @@ describe('to-render-text', () => {
 
   describe('<assertion>', () => {
     it('passes when actual matches the expected', () => {
+      expect(wrapper, 'to render text satisfying to match', /import/);
+      expect(wrapper, 'to render text satisfying to begin with', 'imp');
+      expect(wrapper, 'to render text satisfying to contain', 'port');
+      expect(wrapper, 'to render text satisfying to have length', 9);
+    });
+
+    it('fails when actual does not match the expected', () => {
       expect(
-        mount(
-          <div>
-            <b>important</b>
-          </div>
-        ),
-        'to render text',
-        'to match',
-        /import/
+        () => expect(wrapper, 'to render text satisfying to match', /foo/),
+        'with error matching snapshot'
+      );
+
+      expect(
+        () => expect(wrapper, 'to render text satisfying to have length', 10),
+        'with error matching snapshot'
       );
     });
   });
