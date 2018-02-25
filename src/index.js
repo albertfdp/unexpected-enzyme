@@ -16,7 +16,11 @@ const unexpectedEnzyme = {
         return reactWrapper && reactWrapper instanceof ReactWrapper;
       },
       inspect: function(reactWrapper, depth, output) {
-        output.appendInspected(reactWrapper.getElement());
+        const inspected = reactWrapper.exists()
+          ? reactWrapper.getElement()
+          : reactWrapper.root().html();
+
+        output.appendInspected(inspected);
       }
     });
 
@@ -106,6 +110,13 @@ const unexpectedEnzyme = {
           'to have rendered',
           reactElement
         );
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ReactWrapper> [not] to exist',
+      (expect, reactWrapper) => {
+        return expect(reactWrapper.exists(), '[not] to be', true);
       }
     );
 

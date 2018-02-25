@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-have-props-satisfying fails when the actual does not match the expected 1`] = `"expected '<div><div id=\\"parent\\"></div></div>' to exist"`;
+
+exports[`to-have-props-satisfying fails when the actual negated matches the expected 1`] = `"expected <div id=\\"parent\\" /> not to exist"`;
+
+exports[`to-have-props-satisfying with queried for fails when the actual does not match the expected 1`] = `"expected <Fixture /> queried for '#foobar' to exist"`;
