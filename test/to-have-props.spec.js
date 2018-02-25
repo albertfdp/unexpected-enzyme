@@ -24,7 +24,7 @@ User.propTypes = {
 describe('to-have-props', () => {
   it('passes when the actual matches the expected', () => {
     expect(
-      mount(<User name="Harriet Banks" email="harriet.banks@kinetar.com" />),
+      mount(<User name="Harriet Smith" email="harriet.smith@example.tld" />),
       'to have props',
       ['name', 'email']
     );
@@ -35,7 +35,7 @@ describe('to-have-props', () => {
       () =>
         expect(
           mount(
-            <User name="Harriet Banks" email="harriet.banks@kinetar.com" />
+            <User name="Harriet Smith" email="harriet.smith@example.tld" />
           ),
           'to have props',
           ['name', 'account']
@@ -47,7 +47,7 @@ describe('to-have-props', () => {
   describe('when negated', () => {
     it('passes when the actual does not match the expected', () => {
       expect(
-        mount(<User name="Harriet Banks" email="harriet.banks@kinetar.com" />),
+        mount(<User name="Harriet Smith" email="harriet.smith@example.tld" />),
         'not to have props',
         ['id']
       );

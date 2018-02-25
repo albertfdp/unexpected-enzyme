@@ -87,6 +87,13 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> to have context satisfying <object>',
+      (expect, reactWrapper, context) => {
+        return expect(reactWrapper.context(), 'to satisfy', context);
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> [not] to contain <string>',
       (expect, reactWrapper, selector) => {
         return expect(
@@ -140,6 +147,20 @@ const unexpectedEnzyme = {
       '<ReactWrapper> when setting props <object> <assertion>',
       (expect, reactWrapper, props) => {
         return expect.shift(reactWrapper.setProps(props));
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ReactWrapper> when setting state <object> <assertion>',
+      (expect, reactWrapper, props) => {
+        return expect.shift(reactWrapper.setState(props));
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ReactWrapper> when setting context <object> <assertion>',
+      (expect, reactWrapper, props) => {
+        return expect.shift(reactWrapper.setContext(props));
       }
     );
 
