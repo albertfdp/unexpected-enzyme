@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-have-type function fails when actual does not match expected 1`] = `
+"expected <Foo /> to have type
+function Bar() {
+  return _react2.default.createElement(
+    'span',
+    null,
+    'Another'
+  );
+}"
+`;
+
+exports[`to-have-type function fails when negated actual matches expected 1`] = `
+"expected <Foo /> not to have type
+function Foo() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'Component'
+  );
+}"
+`;
+
+exports[`to-have-type string fails when actual does not match expected 1`] = `
+"expected <div /> to have type 'span'
+
+-div
++span"
+`;
+
+exports[`to-have-type string fails when negated actual matches expected 1`] = `"expected <div /> not to have type 'div'"`;
