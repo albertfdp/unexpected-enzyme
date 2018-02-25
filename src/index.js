@@ -15,12 +15,78 @@ const unexpectedEnzyme = {
       identify: function(reactWrapper) {
         return reactWrapper && reactWrapper instanceof ReactWrapper;
       },
-      inspect: function(reactWrapper, depth, output) {
-        const inspected = reactWrapper.exists()
-          ? reactWrapper.getElement()
-          : reactWrapper.root().html();
+      inspect: function(reactWrapper, depth, output, inspect) {
+        if (!reactWrapper.exists()) {
+          return output.jsKeyword('null');
+        }
 
-        output.appendInspected(inspected);
+        output.text('<');
+        output.jsKeyword(reactWrapper.name());
+
+        const props = reactWrapper.props();
+        Object.keys(props).forEach(key => {
+          if (key === 'children') {
+            return;
+          }
+
+          output.sp().text(`${key}`);
+
+          const value = props[key];
+          const valueType = typeof value;
+          switch (valueType) {
+            case 'string':
+              output
+                .text('=')
+                .jsString('"')
+                .jsString(value)
+                .jsString('"');
+              break;
+            case 'boolean':
+              if (!value) {
+                output
+                  .text('={')
+                  .jsPrimitive(value)
+                  .text('}');
+              }
+              break;
+            default:
+              output
+                .text('={')
+                .appendInspected(value)
+                .text('}');
+          }
+        });
+
+        const children = props.children;
+        if (!children) {
+          output.text(' />');
+        } else {
+          output.text('>').nl();
+
+          output.indentLines();
+
+          output.indent().block(output => {
+            if (typeof children === 'string') {
+              return output.text(children);
+            }
+
+            reactWrapper.children().forEach((child, i) => {
+              if (i > 0) {
+                output.nl();
+              }
+
+              output.append(inspect(child));
+            });
+          });
+
+          output.outdentLines();
+
+          output
+            .nl()
+            .text('</')
+            .jsKeyword(reactWrapper.name())
+            .text('>');
+        }
       }
     });
 
