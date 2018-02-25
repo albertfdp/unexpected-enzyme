@@ -144,6 +144,13 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> when setting state <object> <assertion>',
+      (expect, reactWrapper, props) => {
+        return expect.shift(reactWrapper.setState(props));
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> when receiving event <string>',
       (expect, reactWrapper, event) => {
         return expect.shift(reactWrapper.simulate(event));
