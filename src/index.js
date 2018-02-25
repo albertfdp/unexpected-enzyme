@@ -41,7 +41,7 @@ const unexpectedEnzyme = {
     childExpect.exportAssertion(
       '<ReactWrapper> to render text satisfying <assertion>',
       (expect, reactWrapper) => {
-        expect.errorMode = 'bubble';
+        expect.errorMode = 'nested';
 
         return expect.shift(reactWrapper.text());
       }
