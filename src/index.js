@@ -18,7 +18,7 @@ const unexpectedEnzyme = {
       inspect: function(reactWrapper, depth, output) {
         const inspected = reactWrapper.exists()
           ? reactWrapper.getElement()
-          : reactWrapper.root().getElement();
+          : reactWrapper.root().html();
 
         output.appendInspected(inspected);
       }
