@@ -47,7 +47,6 @@ describe('to-have-class', () => {
     );
 
     expect(wrapper, 'not to have class', 'child');
-    expect(wrapper, 'not to have class', 'child top');
     expect(wrapper, 'not to have class', 'bottom');
   });
 
@@ -64,7 +63,7 @@ describe('to-have-class', () => {
     );
 
     expect(
-      () => expect(wrapper, 'to have class', 'rot top'),
+      () => expect(wrapper, 'to have class', 'rot'),
       'with error matching snapshot'
     );
   });

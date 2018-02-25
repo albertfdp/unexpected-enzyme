@@ -137,18 +137,10 @@ const unexpectedEnzyme = {
     childExpect.exportAssertion(
       '<ReactWrapper> [not] to have class <string>',
       (expect, reactWrapper, className) => {
-        const getFirstNode = wrapper => {
-          return typeof wrapper.type() === 'function'
-            ? getFirstNode(wrapper.childAt(0))
-            : wrapper;
-        };
+        const reactElement = reactWrapper.getDOMNode();
+        const actualClasses = reactElement.className.split(' ');
 
-        const actualWrapper = getFirstNode(reactWrapper);
-
-        if (expect.flags.not === actualWrapper.hasClass(className)) {
-          const classes = (actualWrapper.prop('className') || '').split(' ');
-          expect(classes, '[not] to contain', className);
-        }
+        expect(actualClasses, '[not] to contain', ...className.split(' '));
       }
     );
   }
