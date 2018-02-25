@@ -39,6 +39,20 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> to render text <assertion>',
+      (expect, reactWrapper) => {
+        return expect.shift(reactWrapper.text());
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ReactWrapper> [not] to render text <string>',
+      (expect, reactWrapper, text) => {
+        expect(reactWrapper.text(), '[not] to equal', text);
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> [not] to contain <ReactElement>',
       (expect, reactWrapper, reactElement) => {
         if (
