@@ -2,4 +2,4 @@
 
 exports[`to-be-checked fails when the actual does not match the expected 1`] = `"expected <input id=\\"not\\" defaultChecked={false} /> to be checked"`;
 
-exports[`to-be-checked fails when the actual does not match the expected 2`] = `"expected <input id=\\"checked\\" defaultChecked={true} /> not to be checked"`;
+exports[`to-be-checked fails when the actual does not match the expected 2`] = `"expected <input id=\\"checked\\" defaultChecked /> not to be checked"`;
