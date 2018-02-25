@@ -74,6 +74,24 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> queried for <string> <assertion>',
+      (expect, reactWrapper, query) => {
+        return expect.shift(reactWrapper.find(query));
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ReactWrapper> to render as <ReactElement>',
+      (expect, reactWrapper, reactElement) => {
+        return expect(
+          reactWrapper.getElement(),
+          'to have rendered',
+          reactElement
+        );
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> when setting props <object> <assertion>',
       (expect, reactWrapper, props) => {
         return expect.shift(reactWrapper.setProps(props));
