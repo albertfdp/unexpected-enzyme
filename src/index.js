@@ -28,6 +28,13 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
+      '<ReactWrapper> [not] to have type <string|function>',
+      (expect, reactWrapper, type) => {
+        expect(reactWrapper.type(), '[not] to equal', type);
+      }
+    );
+
+    childExpect.exportAssertion(
       '<ReactWrapper> [not] to contain <ReactElement>',
       (expect, reactWrapper, reactElement) => {
         if (
