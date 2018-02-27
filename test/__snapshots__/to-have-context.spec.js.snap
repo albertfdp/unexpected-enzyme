@@ -1,7 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`to-have-context-satisfying fails when the actual does not match the expected 1`] = `
-"expected <User />
+"expected
+<User>
+  <div className=\\"user\\">
+    <span className=\\"email\\">
+      harriet.smith@example.tld
+    </span>
+  </div>
+</User>
 to have context satisfying { name: /Foo$/, email: 'harriet.smith@example.tld' }
 
 {
