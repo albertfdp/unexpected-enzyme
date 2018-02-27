@@ -13,9 +13,7 @@ to have props [ 'name', 'account' ]"
 exports[`to-have-props when negated fails when the actual does match the expected 1`] = `
 "expected
 <User name=\\"Harriet\\">
-  <div className=\\"user\\">
-    <span className=\\"email\\" />
-  </div>
+  <div className=\\"user\\"><span className=\\"email\\" /></div>
 </User>
 not to have props [ 'name' ]"
 `;

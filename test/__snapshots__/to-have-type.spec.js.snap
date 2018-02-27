@@ -1,20 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`to-have-type function fails when actual does not match expected 1`] = `
-"expected
-<Foo>
-  <div>Component</div>
-</Foo>
-to have type Bar"
-`;
+exports[`to-have-type function fails when actual does not match expected 1`] = `"expected <Foo><div>Component</div></Foo> to have type Bar"`;
 
-exports[`to-have-type function fails when negated actual matches expected 1`] = `
-"expected
-<Foo>
-  <div>Component</div>
-</Foo>
-not to have type Foo"
-`;
+exports[`to-have-type function fails when negated actual matches expected 1`] = `"expected <Foo><div>Component</div></Foo> not to have type Foo"`;
 
 exports[`to-have-type string fails when actual does not match expected 1`] = `
 "expected <div /> to have type 'span'
