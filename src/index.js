@@ -57,8 +57,10 @@ const unexpectedEnzyme = {
           }
         });
 
-        const children = props.children;
-        if (!children) {
+        const children = reactWrapper.children();
+        const hasStringChild = typeof props.children === 'string';
+
+        if (children.length === 0 && !props.children) {
           output.text(' />');
         } else {
           output.text('>').nl();
@@ -66,8 +68,8 @@ const unexpectedEnzyme = {
           output.indentLines();
 
           output.indent().block(output => {
-            if (typeof children === 'string') {
-              return output.text(children);
+            if (children.length === 0 && props.children.length > 0) {
+              return output.text(reactWrapper.text());
             }
 
             reactWrapper.children().forEach((child, i) => {
