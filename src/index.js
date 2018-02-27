@@ -63,28 +63,35 @@ const unexpectedEnzyme = {
         if (children.length === 0 && !props.children) {
           output.text(' />');
         } else {
-          output.text('>').nl();
+          output.text('>');
 
-          output.indentLines();
+          const hasTextChild =
+            children.length === 0 && props.children.length > 0;
+          const textChild = hasTextChild && reactWrapper.text();
 
-          output.indent().block(output => {
-            if (children.length === 0 && props.children.length > 0) {
-              return output.text(reactWrapper.text());
+          if (hasTextChild) {
+            if (output.size().width + textChild.length < 50) {
+              output.text(reactWrapper.text());
+            } else {
+              output.indentLines().nl();
+              output.indent().block(output => output.text(reactWrapper.text()));
+              output.outdentLines().nl();
             }
+          } else {
+            output.indentLines().nl();
+            output.indent().block(output => {
+              children.forEach((child, i) => {
+                if (i > 0) {
+                  output.nl();
+                }
 
-            reactWrapper.children().forEach((child, i) => {
-              if (i > 0) {
-                output.nl();
-              }
-
-              output.append(inspect(child));
+                output.append(inspect(child));
+              });
             });
-          });
-
-          output.outdentLines();
+            output.outdentLines().nl();
+          }
 
           output
-            .nl()
             .text('</')
             .jsKeyword(reactWrapper.name())
             .text('>');
