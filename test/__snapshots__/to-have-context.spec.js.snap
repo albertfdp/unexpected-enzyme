@@ -4,9 +4,7 @@ exports[`to-have-context-satisfying fails when the actual does not match the exp
 "expected
 <User>
   <div className=\\"user\\">
-    <span className=\\"email\\">
-      harriet.smith@example.tld
-    </span>
+    <span className=\\"email\\">harriet.smith@example.tld</span>
   </div>
 </User>
 to have context satisfying { name: /Foo$/, email: 'harriet.smith@example.tld' }

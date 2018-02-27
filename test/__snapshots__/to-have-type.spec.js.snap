@@ -3,9 +3,7 @@
 exports[`to-have-type function fails when actual does not match expected 1`] = `
 "expected
 <Foo>
-  <div>
-    Component
-  </div>
+  <div>Component</div>
 </Foo>
 to have type Bar"
 `;
@@ -13,9 +11,7 @@ to have type Bar"
 exports[`to-have-type function fails when negated actual matches expected 1`] = `
 "expected
 <Foo>
-  <div>
-    Component
-  </div>
+  <div>Component</div>
 </Foo>
 not to have type Foo"
 `;

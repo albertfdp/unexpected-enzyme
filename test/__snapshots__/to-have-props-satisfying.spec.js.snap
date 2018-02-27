@@ -4,9 +4,7 @@ exports[`to-have-props-satisfying fails when the actual does not match the expec
 "expected
 <User name=\\"Harriet Smith\\" email=\\"harriet.smith@example.tld\\">
   <div className=\\"user\\">
-    <span className=\\"email\\">
-      harriet.smith@example.tld
-    </span>
+    <span className=\\"email\\">harriet.smith@example.tld</span>
   </div>
 </User>
 to have props satisfying { name: /Foo$/, email: 'harriet.smith@example.tld' }

@@ -3,9 +3,7 @@
 exports[`to-render-text <assertion> fails when actual does not match the expected 1`] = `
 "expected
 <div>
-  <b>
-    important
-  </b>
+  <b>important</b>
 </div>
 to render text satisfying to match /foo/
   expected 'important' to match /foo/"
@@ -14,9 +12,7 @@ to render text satisfying to match /foo/
 exports[`to-render-text <assertion> fails when actual does not match the expected 2`] = `
 "expected
 <div>
-  <b>
-    important
-  </b>
+  <b>important</b>
 </div>
 to render text satisfying to have length 10
   expected 'important' to have length 10

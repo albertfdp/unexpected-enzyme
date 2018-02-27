@@ -16,21 +16,15 @@ exports[`to-contain <selector> fails when the actual does not match the expected
     <ul>
       <li>
         <User id={1} name=\\"John\\">
-          <span className=\\"user\\" id=\\"user-1\\">
-            User 1
-          </span>
+          <span className=\\"user\\" id=\\"user-1\\">User 1</span>
         </User>
       </li>
       <li>
         <User id={2} name=\\"Doe\\">
-          <span className=\\"user\\" id=\\"user-2\\">
-            User 2
-          </span>
+          <span className=\\"user\\" id=\\"user-2\\">User 2</span>
         </User>
         <User id={3} name=\\"Mark\\">
-          <span className=\\"user\\" id=\\"user-3\\">
-            User 3
-          </span>
+          <span className=\\"user\\" id=\\"user-3\\">User 3</span>
         </User>
       </li>
     </ul>

@@ -5,9 +5,7 @@ exports[`queried-for fails when the actual does not match the expected 1`] = `
 <Fixture>
   <div>
     <div id=\\"parent\\">
-      <div id=\\"child\\">
-        Children
-      </div>
+      <div id=\\"child\\">Children</div>
     </div>
   </div>
 </Fixture>

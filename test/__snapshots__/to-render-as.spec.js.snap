@@ -4,12 +4,8 @@ exports[`to-render-as when it is a subtree fails when the actual does not the ex
 "expected
 <User>
   <div className=\\"user\\">
-    <h3 id=\\"name\\">
-      Harriet
-    </h3>
-    <div id=\\"child\\">
-      Foo
-    </div>
+    <h3 id=\\"name\\">Harriet</h3>
+    <div id=\\"child\\">Foo</div>
   </div>
 </User>
 to render as <div id=\\"child\\">Children</div>
@@ -26,12 +22,8 @@ exports[`to-render-as when it is a subtree fails when the actual is not anywhere
 "expected
 <User>
   <div className=\\"user\\">
-    <h3 id=\\"name\\">
-      Harriet
-    </h3>
-    <div id=\\"child\\">
-      Foo
-    </div>
+    <h3 id=\\"name\\">Harriet</h3>
+    <div id=\\"child\\">Foo</div>
   </div>
 </User>
 to render as <h3>Header</h3>
