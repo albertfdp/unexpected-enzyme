@@ -236,7 +236,18 @@ const unexpectedEnzyme = {
     childExpect.exportAssertion(
       '<ReactWrapper> [not] to exist',
       (expect, reactWrapper) => {
-        return expect(reactWrapper.exists(), '[not] to be', true);
+        const exists = reactWrapper.exists();
+        if (expect.flags.not && exists) {
+          expect.fail();
+        } else if (expect.flags.not === exists) {
+          expect.errorMode = 'bubble';
+          expect.fail(output =>
+            output
+              .error('Element did not exist in:')
+              .nl(2)
+              .appendInspected(reactWrapper.root())
+          );
+        }
       }
     );
 
