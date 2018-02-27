@@ -20,8 +20,9 @@ const unexpectedEnzyme = {
           return output.jsKeyword('null');
         }
 
-        output.text('<');
-        output.jsKeyword(reactWrapper.name());
+        const startTag = output.clone();
+        startTag.text('<');
+        startTag.jsKeyword(reactWrapper.name());
 
         const props = reactWrapper.props();
         Object.keys(props).forEach(key => {
@@ -29,13 +30,13 @@ const unexpectedEnzyme = {
             return;
           }
 
-          output.sp().text(`${key}`);
+          startTag.sp().text(`${key}`);
 
           const value = props[key];
           const valueType = typeof value;
           switch (valueType) {
             case 'string':
-              output
+              startTag
                 .text('=')
                 .jsString('"')
                 .jsString(value)
@@ -43,14 +44,14 @@ const unexpectedEnzyme = {
               break;
             case 'boolean':
               if (!value) {
-                output
+                startTag
                   .text('={')
                   .jsPrimitive(value)
                   .text('}');
               }
               break;
             default:
-              output
+              startTag
                 .text('={')
                 .appendInspected(value)
                 .text('}');
@@ -61,40 +62,56 @@ const unexpectedEnzyme = {
         const hasStringChild = typeof props.children === 'string';
 
         if (children.length === 0 && !props.children) {
-          output.text(' />');
+          startTag.text(' />');
+          output.append(startTag);
         } else {
-          output.text('>');
+          startTag.text('>');
 
-          const hasTextChild =
-            children.length === 0 && props.children.length > 0;
-          const textChild = hasTextChild && reactWrapper.text();
-
-          if (hasTextChild) {
-            if (output.size().width + textChild.length < 50) {
-              output.text(reactWrapper.text());
-            } else {
-              output.indentLines().nl();
-              output.indent().block(output => output.text(reactWrapper.text()));
-              output.outdentLines().nl();
-            }
-          } else {
-            output.indentLines().nl();
-            output.indent().block(output => {
-              children.forEach((child, i) => {
-                if (i > 0) {
-                  output.nl();
-                }
-
-                output.append(inspect(child));
-              });
-            });
-            output.outdentLines().nl();
-          }
-
-          output
+          const endTag = output
+            .clone()
             .text('</')
             .jsKeyword(reactWrapper.name())
             .text('>');
+
+          const hasTextChild =
+            children.length === 0 && props.children.length > 0;
+
+          const inspectedChildren = hasTextChild
+            ? [output.clone().text(reactWrapper.text())]
+            : children.map(child => inspect(child));
+
+          const maxLineLength = Math.min(output.preferredWidth, 60);
+
+          let width = startTag.size().width + endTag.size().width;
+          const compact =
+            inspectedChildren.length > 5 ||
+            inspectedChildren.every(inspectedChild => {
+              if (inspectedChild.isMultiline()) {
+                return false;
+              }
+              width += inspectedChild.size().width;
+              return width < maxLineLength;
+            });
+
+          const childrensOutput = output.clone();
+          inspectedChildren.forEach((inspectedChild, index) => {
+            if (!compact && index > 0) {
+              childrensOutput.nl();
+            }
+            childrensOutput.append(inspectedChild);
+          });
+
+          output.append(startTag);
+
+          if (compact) {
+            output.append(childrensOutput);
+          } else {
+            output.indentLines().nl();
+            output.indent().block(output => output.append(childrensOutput));
+            output.outdentLines().nl();
+          }
+
+          output.append(endTag);
         }
       }
     });
