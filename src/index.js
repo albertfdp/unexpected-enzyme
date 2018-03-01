@@ -20,6 +20,10 @@ const unexpectedEnzyme = {
           return output.jsKeyword('null');
         }
 
+        if (reactWrapper.length > 1) {
+          return output.appendItems(reactWrapper.map(node => node), '\n');
+        }
+
         const startTag = output.clone();
         startTag.text('<');
         startTag.jsKeyword(reactWrapper.name());
@@ -78,7 +82,7 @@ const unexpectedEnzyme = {
 
           const inspectedChildren = hasTextChild
             ? [output.clone().text(reactWrapper.text())]
-            : children.map(child => inspect(child));
+            : children.map(child => inspect(child, Infinity));
 
           const maxLineLength = Math.min(output.preferredWidth, 60);
 
