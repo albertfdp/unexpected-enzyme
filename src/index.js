@@ -1,14 +1,39 @@
-const unexpectedReact = require('unexpected-react');
 const ReactWrapper = require('enzyme/build/ReactWrapper').default;
+const { mount } = require('enzyme');
+const UnexpectedHtmlLike = require('unexpected-htmllike');
+const magicpenPrism = require('magicpen-prism');
+const ReactElementAdapter = require('unexpected-htmllike-jsx-adapter');
+
+const adapter = new ReactElementAdapter();
+const htmllike = new UnexpectedHtmlLike(adapter);
 
 const unexpectedEnzyme = {
   name: 'unexpected-enzyme',
 
   installInto: function(expect) {
     const childExpect = expect.child();
-    childExpect.use(unexpectedReact);
+    childExpect.installPlugin(magicpenPrism);
 
-    childExpect.exportType(childExpect.getType('ReactElement'));
+    childExpect.exportType({
+      name: 'ReactElement',
+
+      identify: function(value) {
+        return (
+          typeof value === 'object' &&
+          value !== null &&
+          (typeof value.type === 'function' ||
+            typeof value.type === 'string') &&
+          typeof value.hasOwnProperty === 'function' &&
+          value.hasOwnProperty('props') &&
+          value.hasOwnProperty('ref') &&
+          value.hasOwnProperty('key')
+        );
+      },
+
+      inspect: function(value, depth, output, inspect) {
+        return htmllike.inspect(value, depth, output, inspect);
+      }
+    });
 
     childExpect.exportType({
       name: 'ReactWrapper',
@@ -161,13 +186,39 @@ const unexpectedEnzyme = {
           expect.flags.not ===
           reactWrapper.containsMatchingElement(reactElement)
         ) {
-          expect.errorMode = 'bubble';
-
-          return expect(
+          const containsResult = htmllike.contains(
+            adapter,
             reactWrapper.getElement(),
-            '[not] to contain with all wrappers',
-            reactElement
+            reactElement,
+            expect,
+            {
+              diffExtraAttributes: false,
+              diffExtraAttributes: false,
+              diffExtraChildren: false
+            }
           );
+
+          return htmllike.withResult(containsResult, result => {
+            expect.fail({
+              diff: function(output, diff, inspect) {
+                return output
+                  .error(
+                    expect.flags.not
+                      ? 'but found the following match'
+                      : 'the best match was'
+                  )
+                  .nl()
+                  .append(
+                    htmllike.render(
+                      containsResult.bestMatch,
+                      output.clone(),
+                      diff,
+                      inspect
+                    )
+                  );
+              }
+            });
+          });
         }
       }
     );
@@ -228,11 +279,31 @@ const unexpectedEnzyme = {
     childExpect.exportAssertion(
       '<ReactWrapper> [not] to satisfy <ReactElement>',
       (expect, reactWrapper, reactElement) => {
-        return expect(
-          reactWrapper.getElement(),
-          'to have rendered',
-          reactElement
-        );
+        if (expect.flags.not === reactWrapper.matchesElement(reactElement)) {
+          const diffResult = htmllike.diff(
+            adapter,
+            reactWrapper.getElement(),
+            reactElement,
+            expect,
+            {
+              diffExtraAttributes: false,
+              diffExtraAttributes: false,
+              diffExtraChildren: false
+            }
+          );
+
+          return htmllike.withResult(diffResult, result => {
+            if (result.weight !== 0) {
+              return expect.fail({
+                diff: function(output, diff, inspect) {
+                  return {
+                    diff: htmllike.render(result, output, diff, inspect)
+                  };
+                }
+              });
+            }
+          });
+        }
       }
     );
 
@@ -293,7 +364,5 @@ const unexpectedEnzyme = {
     );
   }
 };
-
-unexpectedEnzyme.clearAll = unexpectedReact.clearAll;
 
 module.exports = unexpectedEnzyme;
