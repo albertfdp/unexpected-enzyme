@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`to-satisfy when it is a subtree fails when the actual at all similar to the expected 1`] = `
-"expected
-<User>
-  <div className=\\"user\\">
-    <h3 id=\\"name\\">Harriet</h3>
-    <div id=\\"child\\">Foo</div>
-  </div>
-</User>
-to satisfy <h3>Header</h3>
-
-<User // should be <h3
->
-  <div id=\\"child\\"> // wrapper should be removed
-    Foo // -Foo
-        // +Header
-  </div> // wrapper should be removed
-</User>"
-`;
-
 exports[`to-satisfy when it is a subtree fails when the actual does not the expected 1`] = `
 "expected
 <User>
@@ -34,5 +15,24 @@ to satisfy <User><div id=\\"child\\">Children</div></User>
     Foo // -Foo
         // +Children
   </div>
+</User>"
+`;
+
+exports[`to-satisfy when it is a subtree fails when the actual not matching the expected type 1`] = `
+"expected
+<User>
+  <div className=\\"user\\">
+    <h3 id=\\"name\\">Harriet</h3>
+    <div id=\\"child\\">Foo</div>
+  </div>
+</User>
+to satisfy <h3>Header</h3>
+
+<User // should be <h3
+>
+  <div id=\\"child\\"> // wrapper should be removed
+    Foo // -Foo
+        // +Header
+  </div> // wrapper should be removed
 </User>"
 `;
