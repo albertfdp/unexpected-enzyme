@@ -12,7 +12,8 @@
     "format": "prettier --write {config,src,test}/**/*.js",
     "ci": "yarn format && yarn lint && yarn test -i",
     "site:generate": "generate-site --require ./scripts/bootstrap.js",
-    "site:update": "generate-site --require ./scripts/bootstrap.js --update-examples",
+    "site:update":
+      "generate-site --require ./scripts/bootstrap.js --update-examples",
     "site:deploy": "npm run site:update && gh-pages -d site-build"
   },
   "devDependencies": {
@@ -54,8 +55,7 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "setupFiles": [
-      "raf/polyfill"
-    ]
+    "setupFiles": ["raf/polyfill"],
+    "roots": ["<rootDir>/test/"]
   }
 }
