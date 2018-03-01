@@ -226,7 +226,7 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> to render as <ReactElement>',
+      '<ReactWrapper> [not] to satisfy <ReactElement>',
       (expect, reactWrapper, reactElement) => {
         return expect(
           reactWrapper.getElement(),

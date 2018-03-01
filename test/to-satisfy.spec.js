@@ -14,7 +14,7 @@ User.propTypes = {
   children: PropTypes.node
 };
 
-describe('to-render-as', () => {
+describe('to-satisfy', () => {
   describe('when it is a subtree', () => {
     it('passes when the actual matches the expected', () => {
       const wrapper = mount(
@@ -23,7 +23,13 @@ describe('to-render-as', () => {
         </User>
       );
 
-      expect(wrapper, 'to render as', <div id="child">Children</div>);
+      expect(
+        wrapper,
+        'to satisfy',
+        <User>
+          <div>Children</div>
+        </User>
+      );
     });
 
     it('fails when the actual does not the expected', () => {
@@ -34,12 +40,19 @@ describe('to-render-as', () => {
       );
 
       expect(
-        () => expect(wrapper, 'to render as', <div id="child">Children</div>),
+        () =>
+          expect(
+            wrapper,
+            'to satisfy',
+            <User>
+              <div id="child">Children</div>
+            </User>
+          ),
         'with error matching snapshot'
       );
     });
 
-    it('fails when the actual is not anywhere on the tree', () => {
+    it('fails when the actual not matching the expected type', () => {
       const wrapper = mount(
         <User>
           <div id="child">Foo</div>
@@ -47,7 +60,7 @@ describe('to-render-as', () => {
       );
 
       expect(
-        () => expect(wrapper, 'to render as', <h3>Header</h3>),
+        () => expect(wrapper, 'to satisfy', <h3>Header</h3>),
         'with error matching snapshot'
       );
     });
