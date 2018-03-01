@@ -63,7 +63,6 @@ const unexpectedEnzyme = {
         });
 
         const children = reactWrapper.children();
-        const hasStringChild = typeof props.children === 'string';
 
         if (children.length === 0 && !props.children) {
           startTag.text(' />');
