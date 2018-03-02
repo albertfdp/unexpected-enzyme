@@ -272,6 +272,7 @@ const unexpectedEnzyme = {
     childExpect.exportAssertion(
       '<ReactWrapper> queried for <string> <assertion>',
       (expect, reactWrapper, query) => {
+        expect.errorMode = 'nested';
         return expect.shift(reactWrapper.find(query));
       }
     );
