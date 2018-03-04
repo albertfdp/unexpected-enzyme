@@ -6,7 +6,7 @@ class Fixture extends React.Component {
   render() {
     return (
       <div>
-        <div id="parent">
+        <div id="parent" className="old friendly">
           <div id="child">Children</div>
         </div>
       </div>
@@ -22,8 +22,10 @@ describe('queried-for', () => {
       wrapper,
       'queried for',
       '#parent',
-      'to render as',
-      <div id="child">Children</div>
+      'to satisfy',
+      <div className="old friendly">
+        <div id="child">Children</div>
+      </div>
     );
   });
 
@@ -36,8 +38,10 @@ describe('queried-for', () => {
           wrapper,
           'queried for',
           '#parent',
-          'to render as',
-          <div id="child">Foo</div>
+          'to satisfy',
+          <div>
+            <div id="child">Foo</div>
+          </div>
         ),
       'with error matching snapshot'
     );

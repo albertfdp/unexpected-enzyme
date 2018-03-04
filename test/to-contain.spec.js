@@ -45,6 +45,13 @@ describe('to-contain', () => {
       it('passes negated when the actual does not match the expected', () => {
         expect(mount(<Fixture />), 'not to contain', <User id={4} />);
       });
+
+      it('fails when the actual does match the expected', () => {
+        expect(
+          () => expect(mount(<Fixture />), 'not to contain', <User id={2} />),
+          'with error matching snapshot'
+        );
+      });
     });
   });
 

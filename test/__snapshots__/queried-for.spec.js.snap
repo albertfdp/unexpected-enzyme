@@ -4,15 +4,22 @@ exports[`queried-for fails when the actual does not match the expected 1`] = `
 "expected
 <Fixture>
   <div>
-    <div id=\\"parent\\"><div id=\\"child\\">Children</div></div>
+    <div id=\\"parent\\" className=\\"old friendly\\">
+      <div id=\\"child\\">Children</div>
+    </div>
   </div>
 </Fixture>
-queried for '#parent' to render as <div id=\\"child\\">Foo</div>
-
-<div id=\\"parent\\">
-  <div id=\\"child\\">
-    Children // -Children
-             // +Foo
+queried for '#parent' to satisfy <div><div id=\\"child\\">Foo</div></div>
+  expected
+  <div id=\\"parent\\" className=\\"old friendly\\">
+    <div id=\\"child\\">Children</div>
   </div>
-</div>"
+  to satisfy <div><div id=\\"child\\">Foo</div></div>
+
+  <div id=\\"parent\\" className=\\"old friendly\\">
+    <div id=\\"child\\">
+      Children // -Children
+               // +Foo
+    </div>
+  </div>"
 `;

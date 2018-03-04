@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`to-render-as when it is a subtree fails when the actual does not the expected 1`] = `
+exports[`to-satisfy when it is a subtree fails when the actual does not the expected 1`] = `
 "expected
 <User>
   <div className=\\"user\\">
@@ -8,7 +8,7 @@ exports[`to-render-as when it is a subtree fails when the actual does not the ex
     <div id=\\"child\\">Foo</div>
   </div>
 </User>
-to render as <div id=\\"child\\">Children</div>
+to satisfy <User><div id=\\"child\\">Children</div></User>
 
 <User>
   <div id=\\"child\\">
@@ -18,7 +18,7 @@ to render as <div id=\\"child\\">Children</div>
 </User>"
 `;
 
-exports[`to-render-as when it is a subtree fails when the actual is not anywhere on the tree 1`] = `
+exports[`to-satisfy when it is a subtree fails when the actual not matching the expected type 1`] = `
 "expected
 <User>
   <div className=\\"user\\">
@@ -26,13 +26,13 @@ exports[`to-render-as when it is a subtree fails when the actual is not anywhere
     <div id=\\"child\\">Foo</div>
   </div>
 </User>
-to render as <h3>Header</h3>
+to satisfy <h3>Header</h3>
 
 <User // should be <h3
 >
-  <div id=\\"child\\">
+  <div id=\\"child\\"> // wrapper should be removed
     Foo // -Foo
         // +Header
-  </div>
+  </div> // wrapper should be removed
 </User>"
 `;

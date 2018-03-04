@@ -10,5 +10,8 @@ exports[`to-have-props-satisfying fails when the actual negated matches the expe
 
 exports[`to-have-props-satisfying with queried for fails when the actual does not match the expected 1`] = `
 "expected <Fixture><div><div id=\\"parent\\" /></div></Fixture>
-queried for '#foobar' to exist"
+queried for '#foobar' to exist
+  Element did not exist in:
+
+  <Fixture><div><div id=\\"parent\\" /></div></Fixture>"
 `;
