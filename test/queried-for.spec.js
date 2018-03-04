@@ -1,5 +1,5 @@
 import expect from './unexpected-enzyme';
-import { mount } from 'enzyme';
+import enzyme from 'enzyme';
 import React from 'react';
 
 class Fixture extends React.Component {
@@ -15,35 +15,45 @@ class Fixture extends React.Component {
 }
 
 describe('queried-for', () => {
-  it('passes when the actual matches the expected', () => {
-    const wrapper = mount(<Fixture />);
+  ['mount', 'shallow'].forEach(type => {
+    let render;
 
-    expect(
-      wrapper,
-      'queried for',
-      '#parent',
-      'to satisfy',
-      <div className="old friendly">
-        <div id="child">Children</div>
-      </div>
-    );
-  });
+    beforeEach(() => {
+      render = enzyme[type];
+    });
 
-  it('fails when the actual does not match the expected', () => {
-    const wrapper = mount(<Fixture />);
+    describe(type, () => {
+      it('passes when the actual matches the expected', () => {
+        const wrapper = render(<Fixture />);
 
-    expect(
-      () =>
         expect(
           wrapper,
           'queried for',
           '#parent',
           'to satisfy',
-          <div>
-            <div id="child">Foo</div>
+          <div className="old friendly">
+            <div id="child">Children</div>
           </div>
-        ),
-      'with error matching snapshot'
-    );
+        );
+      });
+
+      it('fails when the actual does not match the expected', () => {
+        const wrapper = render(<Fixture />);
+
+        expect(
+          () =>
+            expect(
+              wrapper,
+              'queried for',
+              '#parent',
+              'to satisfy',
+              <div>
+                <div id="child">Foo</div>
+              </div>
+            ),
+          'with error matching snapshot'
+        );
+      });
+    });
   });
 });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`queried-for fails when the actual does not match the expected 1`] = `
+exports[`queried-for mount fails when the actual does not match the expected 1`] = `
 "expected
 <Fixture>
   <div>
@@ -13,6 +13,28 @@ queried for '#parent' to satisfy <div><div id=\\"child\\">Foo</div></div>
   expected
   <div id=\\"parent\\" className=\\"old friendly\\">
     <div id=\\"child\\">Children</div>
+  </div>
+  to satisfy <div><div id=\\"child\\">Foo</div></div>
+
+  <div id=\\"parent\\" className=\\"old friendly\\">
+    <div id=\\"child\\">
+      Children // -Children
+               // +Foo
+    </div>
+  </div>"
+`;
+
+exports[`queried-for shallow fails when the actual does not match the expected 1`] = `
+"expected
+<div>
+  <div id=\\"parent\\" className=\\"old friendly\\">
+    <div id=\\"child\\"><null /></div>
+  </div>
+</div>
+queried for '#parent' to satisfy <div><div id=\\"child\\">Foo</div></div>
+  expected
+  <div id=\\"parent\\" className=\\"old friendly\\">
+    <div id=\\"child\\"><null /></div>
   </div>
   to satisfy <div><div id=\\"child\\">Foo</div></div>
 
