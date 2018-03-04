@@ -9,4 +9,26 @@ the best match was
 />"
 `;
 
-exports[`to-contain <selector> fails when the actual does not match the expected 1`] = `"expected <Fixture /> to contain '#user-4'"`;
+exports[`to-contain <selector> fails when the actual does not match the expected 1`] = `
+"expected
+<Fixture>
+  <div>
+    <ul>
+      <li>
+        <User id={1} name=\\"John\\">
+          <span className=\\"user\\" id=\\"user-1\\">User 1</span>
+        </User>
+      </li>
+      <li>
+        <User id={2} name=\\"Doe\\">
+          <span className=\\"user\\" id=\\"user-2\\">User 2</span>
+        </User>
+        <User id={3} name=\\"Mark\\">
+          <span className=\\"user\\" id=\\"user-3\\">User 3</span>
+        </User>
+      </li>
+    </ul>
+  </div>
+</Fixture>
+to contain '#user-4'"
+`;

@@ -15,12 +15,107 @@ const unexpectedEnzyme = {
       identify: function(reactWrapper) {
         return reactWrapper && reactWrapper instanceof ReactWrapper;
       },
-      inspect: function(reactWrapper, depth, output) {
-        const inspected = reactWrapper.exists()
-          ? reactWrapper.getElement()
-          : reactWrapper.root().html();
+      inspect: function(reactWrapper, depth, output, inspect) {
+        if (!reactWrapper.exists()) {
+          return output.jsKeyword('null');
+        }
 
-        output.appendInspected(inspected);
+        if (reactWrapper.length > 1) {
+          return output.appendItems(reactWrapper.map(node => node), '\n');
+        }
+
+        const startTag = output.clone();
+        startTag.text('<');
+        startTag.jsKeyword(reactWrapper.name());
+
+        const props = reactWrapper.props();
+        Object.keys(props).forEach(key => {
+          if (key === 'children') {
+            return;
+          }
+
+          startTag.sp().text(`${key}`);
+
+          const value = props[key];
+          const valueType = typeof value;
+          switch (valueType) {
+            case 'string':
+              startTag
+                .text('=')
+                .jsString('"')
+                .jsString(value)
+                .jsString('"');
+              break;
+            case 'boolean':
+              if (!value) {
+                startTag
+                  .text('={')
+                  .jsPrimitive(value)
+                  .text('}');
+              }
+              break;
+            default:
+              startTag
+                .text('={')
+                .appendInspected(value)
+                .text('}');
+          }
+        });
+
+        const children = reactWrapper.children();
+
+        if (children.length === 0 && !props.children) {
+          startTag.text(' />');
+          output.append(startTag);
+        } else {
+          startTag.text('>');
+
+          const endTag = output
+            .clone()
+            .text('</')
+            .jsKeyword(reactWrapper.name())
+            .text('>');
+
+          const hasTextChild =
+            children.length === 0 && props.children.length > 0;
+
+          const inspectedChildren = hasTextChild
+            ? [output.clone().text(reactWrapper.text())]
+            : children.map(child => inspect(child, Infinity));
+
+          const maxLineLength = Math.min(output.preferredWidth, 60);
+
+          let width = startTag.size().width + endTag.size().width;
+          const compact =
+            inspectedChildren.length > 5 ||
+            inspectedChildren.every(inspectedChild => {
+              if (inspectedChild.isMultiline()) {
+                return false;
+              }
+              width += inspectedChild.size().width;
+              return width < maxLineLength;
+            });
+
+          const childrensOutput = output.clone();
+          inspectedChildren.forEach((inspectedChild, index) => {
+            if (!compact && index > 0) {
+              childrensOutput.nl();
+            }
+            childrensOutput.append(inspectedChild);
+          });
+
+          output.append(startTag);
+
+          if (compact) {
+            output.append(childrensOutput);
+          } else {
+            output.indentLines().nl();
+            output.indent().block(output => output.append(childrensOutput));
+            output.outdentLines().nl();
+          }
+
+          output.append(endTag);
+        }
       }
     });
 
@@ -34,6 +129,11 @@ const unexpectedEnzyme = {
     childExpect.exportAssertion(
       '<ReactWrapper> [not] to have type <string|function>',
       (expect, reactWrapper, type) => {
+        if (typeof type === 'function') {
+          expect.argsOutput[0] = output =>
+            output.text((type && type.displayName) || type.name || type);
+        }
+
         expect(reactWrapper.type(), '[not] to equal', type);
       }
     );
@@ -139,7 +239,18 @@ const unexpectedEnzyme = {
     childExpect.exportAssertion(
       '<ReactWrapper> [not] to exist',
       (expect, reactWrapper) => {
-        return expect(reactWrapper.exists(), '[not] to be', true);
+        const exists = reactWrapper.exists();
+        if (expect.flags.not && exists) {
+          expect.fail();
+        } else if (expect.flags.not === exists) {
+          expect.errorMode = 'bubble';
+          expect.fail(output =>
+            output
+              .error('Element did not exist in:')
+              .nl(2)
+              .appendInspected(reactWrapper.root())
+          );
+        }
       }
     );
 

@@ -1,17 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`to-have-state-satisfying <assertion> fails when the actual does not match the expected 1`] = `
-"expected <Counter count={0} />
+"expected
+<Counter count={0}>
+  <div className=\\"count\\">
+    <button className=\\"increment\\" onClick={function bound increment() { /* native code */ }}>
+      Increment
+    </button>
+  </div>
+</Counter>
 to have state satisfying to have keys [ 'caunt', 'number' ]"
 `;
 
 exports[`to-have-state-satisfying <assertion> when negated fails when the actual does match the expected 1`] = `
-"expected <Counter count={0} />
+"expected
+<Counter count={0}>
+  <div className=\\"count\\">
+    <button className=\\"increment\\" onClick={function bound increment() { /* native code */ }}>
+      Increment
+    </button>
+  </div>
+</Counter>
 to have state satisfying not to have keys [ 'count' ]"
 `;
 
 exports[`to-have-state-satisfying <object> fails when the actual does not match the expected 1`] = `
-"expected <Counter count={0} /> to have state satisfying { count: 3, number: 0 }
+"expected
+<Counter count={0}>
+  <div className=\\"count\\">
+    <button className=\\"increment\\" onClick={function bound increment() { /* native code */ }}>
+      Increment
+    </button>
+  </div>
+</Counter>
+to have state satisfying { count: 3, number: 0 }
 
 {
   count: 0 // should equal 3

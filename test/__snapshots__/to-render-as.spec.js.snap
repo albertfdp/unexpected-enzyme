@@ -1,7 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`to-render-as when it is a subtree fails when the actual does not the expected 1`] = `
-"expected <User><div id=\\"child\\">Foo</div></User>
+"expected
+<User>
+  <div className=\\"user\\">
+    <h3 id=\\"name\\">Harriet</h3>
+    <div id=\\"child\\">Foo</div>
+  </div>
+</User>
 to render as <div id=\\"child\\">Children</div>
 
 <User>
@@ -13,7 +19,14 @@ to render as <div id=\\"child\\">Children</div>
 `;
 
 exports[`to-render-as when it is a subtree fails when the actual is not anywhere on the tree 1`] = `
-"expected <User><div id=\\"child\\">Foo</div></User> to render as <h3>Header</h3>
+"expected
+<User>
+  <div className=\\"user\\">
+    <h3 id=\\"name\\">Harriet</h3>
+    <div id=\\"child\\">Foo</div>
+  </div>
+</User>
+to render as <h3>Header</h3>
 
 <User // should be <h3
 >
