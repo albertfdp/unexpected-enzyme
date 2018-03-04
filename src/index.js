@@ -1,4 +1,5 @@
 const ReactWrapper = require('enzyme/build/ReactWrapper').default;
+const ShallowWrapper = require('enzyme/build/ShallowWrapper').default;
 const UnexpectedHtmlLike = require('unexpected-htmllike');
 const magicpenPrism = require('magicpen-prism');
 const ReactElementAdapter = require('unexpected-htmllike-jsx-adapter');
@@ -150,6 +151,14 @@ const unexpectedEnzyme = {
       }
     });
 
+    childExpect.exportType({
+      name: 'ShallowWrapper',
+      base: 'ReactWrapper',
+      identify: function(shallowWrapper) {
+        return shallowWrapper && shallowWrapper instanceof ShallowWrapper;
+      }
+    });
+
     childExpect.exportAssertion(
       '<ReactWrapper> [not] to be checked',
       (expect, reactWrapper) => {
@@ -203,7 +212,7 @@ const unexpectedEnzyme = {
             }
           );
 
-          return htmllike.withResult(containsResult, result => {
+          return htmllike.withResult(containsResult, () => {
             expect.fail({
               diff: function(output, diff, inspect) {
                 return output
