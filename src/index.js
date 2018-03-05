@@ -1,5 +1,4 @@
 const ReactWrapper = require('enzyme/build/ReactWrapper').default;
-const { mount } = require('enzyme');
 const UnexpectedHtmlLike = require('unexpected-htmllike');
 const magicpenPrism = require('magicpen-prism');
 const ReactElementAdapter = require('unexpected-htmllike-jsx-adapter');
@@ -193,7 +192,6 @@ const unexpectedEnzyme = {
             expect,
             {
               diffExtraAttributes: false,
-              diffExtraAttributes: false,
               diffExtraChildren: false
             }
           );
@@ -210,7 +208,7 @@ const unexpectedEnzyme = {
                   .nl()
                   .append(
                     htmllike.render(
-                      containsResult.bestMatch,
+                      result.bestMatch,
                       output.clone(),
                       diff,
                       inspect
@@ -287,7 +285,6 @@ const unexpectedEnzyme = {
             reactElement,
             expect,
             {
-              diffExtraAttributes: false,
               diffExtraAttributes: false,
               diffExtraChildren: false
             }
