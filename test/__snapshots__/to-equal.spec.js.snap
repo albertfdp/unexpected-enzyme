@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to-equal comparing react elements fails when the actual does not match the expected 1`] = `
+"expected
+<div>
+  <div id=\\"parent\\" className=\\"old friendly\\"><div id=\\"child\\">Children</div></div>
+</div>
+to equal
+<div>
+  <div id=\\"parents\\" className=\\"old friendly\\"><div id=\\"child\\">Kids</div></div>
+</div>
+
+<div>
+  <div id=\\"parent\\" // expected 'parent' to equal 'parents'
+                   //
+                   // -parent
+                   // +parents
+     className=\\"old friendly\\">
+    <div id=\\"child\\">
+      Children // -Children
+               // +Kids
+    </div>
+  </div>
+</div>"
+`;
+
+exports[`to-equal comparing react elements when negated fails when actual is equal the expected 1`] = `
+"expected
+<div>
+  <div id=\\"parent\\" className=\\"old friendly\\"><div id=\\"child\\">Children</div></div>
+</div>
+not to equal
+<div>
+  <div id=\\"parent\\" className=\\"old friendly\\"><div id=\\"child\\">Children</div></div>
+</div>"
+`;
