@@ -65,4 +65,68 @@ describe('to-satisfy', () => {
       );
     });
   });
+
+  describe('with the exhaustively flag', () => {
+    it('passes if the wrapper represents an element that is equal to the given element', () =>
+      expect(
+        mount(
+          <User>
+            <div id="child">Children</div>
+          </User>
+        ),
+        'to exhaustively satisfy',
+        <User>
+          <div id="child">Children</div>
+        </User>
+      ));
+
+    it('fails when the actual does not match the expected', () =>
+      expect(
+        () =>
+          expect(
+            mount(
+              <User>
+                <div id="child">Children</div>
+              </User>
+            ),
+            'to exhaustively satisfy',
+            <User>
+              <div id="kids">Kids</div>
+            </User>
+          ),
+        'with error matching snapshot'
+      ));
+
+    describe('when negated', () => {
+      it('passes when actual is not equal the expected', () =>
+        expect(
+          mount(
+            <User>
+              <div id="child">Children</div>
+            </User>
+          ),
+          'not to exhaustively satisfy',
+          <User>
+            <div id="kids">Kids</div>
+          </User>
+        ));
+
+      it('fails when actual is equal the expected', () =>
+        expect(
+          () =>
+            expect(
+              mount(
+                <User>
+                  <div id="child">Children</div>
+                </User>
+              ),
+              'not to exhaustively satisfy',
+              <User>
+                <div id="child">Children</div>
+              </User>
+            ),
+          'with error matching snapshot'
+        ));
+    });
+  });
 });

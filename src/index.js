@@ -28,7 +28,14 @@ const unexpectedEnzyme = {
           value.hasOwnProperty('key')
         );
       },
-
+      equal: function(a, b, equal) {
+        return (
+          a === b ||
+          (equal(a.type, b.type) &&
+            equal(a.props, b.props) &&
+            equal(a.children, b.children))
+        );
+      },
       inspect: function(value, depth, output, inspect) {
         return htmllike.inspect(value, depth, output, inspect);
       }
@@ -276,18 +283,30 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to satisfy <ReactElement>',
+      '<ReactWrapper> [not] to [exhaustively] satisfy <ReactElement>',
       (expect, reactWrapper, reactElement) => {
-        if (expect.flags.not === reactWrapper.matchesElement(reactElement)) {
+        const exhaustively = expect.flags.exhaustively;
+        const not = expect.flags.not;
+        const matches = exhaustively
+          ? expect.equal(reactWrapper.getElement(), reactElement)
+          : reactWrapper.matchesElement(reactElement);
+
+        if (not === matches) {
+          if (not) {
+            expect.fail();
+          }
+
           const diffResult = htmllike.diff(
             adapter,
             reactWrapper.getElement(),
             reactElement,
             expect,
-            {
-              diffExtraAttributes: false,
-              diffExtraChildren: false
-            }
+            exhaustively
+              ? {}
+              : {
+                  diffExtraAttributes: false,
+                  diffExtraChildren: false
+                }
           );
 
           return htmllike.withResult(diffResult, result => {
@@ -358,6 +377,35 @@ const unexpectedEnzyme = {
         const actualClasses = reactElement.className.split(' ');
 
         expect(actualClasses, '[not] to contain', ...className.split(' '));
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ReactElement> [not] to equal <ReactElement>',
+      (expect, a, b) => {
+        const equal = expect.equal(a, b);
+        const not = expect.flags.not;
+        if (not === equal) {
+          if (not) {
+            expect.fail();
+          }
+
+          const diffResult = htmllike.diff(adapter, a, b, expect);
+
+          return htmllike.withResult(diffResult, result => {
+            if (result.weight !== 0) {
+              return expect.fail({
+                diff: function(output, diff, inspect) {
+                  return {
+                    diff: htmllike.render(result, output, diff, inspect)
+                  };
+                }
+              });
+            } else {
+              expect.fail();
+            }
+          });
+        }
       }
     );
   }

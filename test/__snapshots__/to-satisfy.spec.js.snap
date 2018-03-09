@@ -36,3 +36,36 @@ to satisfy <h3>Header</h3>
   </div> // wrapper should be removed
 </User>"
 `;
+
+exports[`to-satisfy with the exhaustively flag fails when the actual does not match the expected 1`] = `
+"expected
+<User>
+  <div className=\\"user\\">
+    <h3 id=\\"name\\">Harriet</h3>
+    <div id=\\"child\\">Children</div>
+  </div>
+</User>
+to exhaustively satisfy <User><div id=\\"kids\\">Kids</div></User>
+
+<User>
+  <div id=\\"child\\" // expected 'child' to equal 'kids'
+                  //
+                  // -child
+                  // +kids
+  >
+    Children // -Children
+             // +Kids
+  </div>
+</User>"
+`;
+
+exports[`to-satisfy with the exhaustively flag when negated fails when actual is equal the expected 1`] = `
+"expected
+<User>
+  <div className=\\"user\\">
+    <h3 id=\\"name\\">Harriet</h3>
+    <div id=\\"child\\">Children</div>
+  </div>
+</User>
+not to exhaustively satisfy <User><div id=\\"child\\">Children</div></User>"
+`;
