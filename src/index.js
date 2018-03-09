@@ -283,10 +283,15 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to satisfy <ReactElement>',
+      '<ReactWrapper> [not] to [exhaustively] satisfy <ReactElement>',
       (expect, reactWrapper, reactElement) => {
+        const exhaustively = expect.flags.exhaustively;
         const not = expect.flags.not;
-        if (not === reactWrapper.matchesElement(reactElement)) {
+        const matches = exhaustively
+          ? expect.equal(reactWrapper.getElement(), reactElement)
+          : reactWrapper.matchesElement(reactElement);
+
+        if (not === matches) {
           if (not) {
             expect.fail();
           }
@@ -296,10 +301,12 @@ const unexpectedEnzyme = {
             reactWrapper.getElement(),
             reactElement,
             expect,
-            {
-              diffExtraAttributes: false,
-              diffExtraChildren: false
-            }
+            exhaustively
+              ? {}
+              : {
+                  diffExtraAttributes: false,
+                  diffExtraChildren: false
+                }
           );
 
           return htmllike.withResult(diffResult, result => {
@@ -399,13 +406,6 @@ const unexpectedEnzyme = {
             }
           });
         }
-      }
-    );
-
-    childExpect.exportAssertion(
-      '<ReactWrapper> [not] to exhaustively satisfy <ReactElement>',
-      (expect, a, b) => {
-        return expect(a.getElement(), '[not] to equal', b);
       }
     );
   }
