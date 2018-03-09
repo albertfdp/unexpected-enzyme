@@ -1,11 +1,13 @@
 {
   "name": "unexpected-enzyme",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "unexpected plugin to test React components with enzyme",
   "main": "./lib/index.js",
   "author": "Albert Fernandez <albert@nandez.cat>",
   "license": "MIT",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
