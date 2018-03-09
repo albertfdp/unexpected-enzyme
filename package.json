@@ -1,6 +1,6 @@
 {
   "name": "unexpected-enzyme",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.0",
   "description": "unexpected plugin to test React components with enzyme",
   "main": "dist/index.js",
   "author": "Albert Fernandez <albert@nandez.cat>",
@@ -12,8 +12,7 @@
     "format": "prettier --write {config,src,test}/**/*.js",
     "ci": "yarn format && yarn lint && yarn test -i",
     "site:generate": "generate-site --require ./scripts/bootstrap.js",
-    "site:update":
-      "generate-site --require ./scripts/bootstrap.js --update-examples",
+    "site:update": "generate-site --require ./scripts/bootstrap.js --update-examples",
     "site:deploy": "npm run site:update && gh-pages -d site-build"
   },
   "devDependencies": {
@@ -55,7 +54,11 @@
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
-    "setupFiles": ["raf/polyfill"],
-    "roots": ["<rootDir>/test/"]
+    "setupFiles": [
+      "raf/polyfill"
+    ],
+    "roots": [
+      "<rootDir>/test/"
+    ]
   }
 }
