@@ -1,5 +1,5 @@
 import expect from './unexpected-enzyme';
-import enzyme, { mount } from 'enzyme';
+import enzyme from 'enzyme';
 import React from 'react';
 
 class Fixture extends React.Component {

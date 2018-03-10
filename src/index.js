@@ -212,7 +212,7 @@ const unexpectedEnzyme = {
             }
           );
 
-          return htmllike.withResult(containsResult, () => {
+          return htmllike.withResult(containsResult, result => {
             expect.fail({
               diff: function(output, diff, inspect) {
                 return output
