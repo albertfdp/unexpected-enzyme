@@ -3,6 +3,7 @@ const ShallowWrapper = require('enzyme/build/ShallowWrapper').default;
 const UnexpectedHtmlLike = require('unexpected-htmllike');
 const magicpenPrism = require('magicpen-prism');
 const ReactElementAdapter = require('unexpected-htmllike-jsx-adapter');
+const $ = require('cheerio');
 
 const adapter = new ReactElementAdapter();
 const htmllike = new UnexpectedHtmlLike(adapter);
@@ -166,9 +167,18 @@ const unexpectedEnzyme = {
     });
 
     childExpect.exportAssertion(
-      '<EnzymeWrapper> [not] to be checked',
+      '<ReactWrapper> [not] to be checked',
       (expect, reactWrapper) => {
         expect(reactWrapper.instance().checked, '[not] to be true');
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ShallowWrapper> [not] to be checked',
+      (expect, shallowWrapper) => {
+        const element = $(shallowWrapper.html());
+
+        expect(element.is(':checked'), '[not] to be', true);
       }
     );
 
