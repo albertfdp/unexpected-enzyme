@@ -8,6 +8,18 @@ const $ = require('cheerio');
 const adapter = new ReactElementAdapter();
 const htmllike = new UnexpectedHtmlLike(adapter);
 
+const normalizeChildren = children => {
+  if (!children) {
+    return [];
+  }
+
+  if (Array.isArray(children)) {
+    return children;
+  }
+
+  return [children];
+};
+
 const unexpectedEnzyme = {
   name: 'unexpected-enzyme',
 
@@ -55,9 +67,14 @@ const unexpectedEnzyme = {
           return output.appendItems(reactWrapper.map(node => node), '\n');
         }
 
+        const name = reactWrapper.name();
+        if (!name) {
+          return output.text(reactWrapper.text());
+        }
+
         const startTag = output.clone();
         startTag.text('<');
-        startTag.jsKeyword(reactWrapper.name());
+        startTag.jsKeyword(name);
 
         const props = reactWrapper.props();
         Object.keys(props).forEach(key => {
@@ -93,9 +110,13 @@ const unexpectedEnzyme = {
           }
         });
 
-        const children = reactWrapper.children();
+        let children = normalizeChildren(props.children);
+        const wrapperChildren = reactWrapper.children();
+        if (wrapperChildren.length >= children.length) {
+          children = wrapperChildren;
+        }
 
-        if (children.length === 0 && !props.children) {
+        if (children.length === 0) {
           startTag.text(' />');
           output.append(startTag);
         } else {
@@ -107,12 +128,12 @@ const unexpectedEnzyme = {
             .jsKeyword(reactWrapper.name())
             .text('>');
 
-          const hasTextChild =
-            children.length === 0 && props.children.length > 0;
-
-          const inspectedChildren = hasTextChild
-            ? [output.clone().text(reactWrapper.text())]
-            : children.map(child => inspect(child, Infinity));
+          const inspectedChildren = children.map(
+            child =>
+              typeof child === 'string'
+                ? output.clone().text(child)
+                : inspect(child, Infinity)
+          );
 
           const maxLineLength = Math.min(output.preferredWidth, 60);
 
