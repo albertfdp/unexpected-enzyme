@@ -1,6 +1,6 @@
 {
   "name": "unexpected-enzyme",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "unexpected plugin to test React components with enzyme",
   "main": "./lib/index.js",
   "author": "Albert Fernandez <albert@nandez.cat>",
