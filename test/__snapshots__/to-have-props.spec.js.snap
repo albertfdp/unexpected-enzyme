@@ -4,6 +4,7 @@ exports[`to-have-props fails when the actual does not match the expected 1`] = `
 "expected
 <User name=\\"Harriet Smith\\" email=\\"harriet.smith@example.tld\\">
   <div className=\\"user\\">
+    Harriet Smith
     <span className=\\"email\\">harriet.smith@example.tld</span>
   </div>
 </User>
@@ -13,7 +14,10 @@ to have props [ 'name', 'account' ]"
 exports[`to-have-props when negated fails when the actual does match the expected 1`] = `
 "expected
 <User name=\\"Harriet\\">
-  <div className=\\"user\\"><span className=\\"email\\" /></div>
+  <div className=\\"user\\">
+    Harriet
+    <span className=\\"email\\" />
+  </div>
 </User>
 not to have props [ 'name' ]"
 `;
