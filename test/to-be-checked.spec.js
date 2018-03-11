@@ -1,5 +1,5 @@
 import expect from './unexpected-enzyme';
-import { mount } from 'enzyme';
+import enzyme from 'enzyme';
 import React, { Component } from 'react';
 
 class Fixture extends Component {
@@ -14,28 +14,38 @@ class Fixture extends Component {
 }
 
 describe('to-be-checked', () => {
-  let wrapper;
+  ['mount', 'shallow'].forEach(type => {
+    let render;
 
-  beforeEach(() => {
-    wrapper = mount(<Fixture />);
-  });
+    beforeEach(() => {
+      render = enzyme[type];
+    });
 
-  it('passes when the actual matches the expected', () => {
-    expect(wrapper.find('#checked'), 'to be checked');
-  });
+    describe(type, () => {
+      let wrapper;
 
-  it('passes negated when the actual does not match the expected', () => {
-    expect(wrapper.find('#not'), 'not to be checked');
-  });
+      beforeEach(() => {
+        wrapper = render(<Fixture />);
+      });
 
-  it('fails when the actual does not match the expected', () => {
-    expect(
-      () => expect(wrapper.find('#not'), 'to be checked'),
-      'with error matching snapshot'
-    );
+      it('passes when the actual matches the expected', () => {
+        expect(wrapper.find('#checked'), 'to be checked');
+      });
 
-    expect(() => {
-      expect(wrapper.find('#checked'), 'not to be checked');
-    }, 'with error matching snapshot');
+      it('passes negated when the actual does not match the expected', () => {
+        expect(wrapper.find('#not'), 'not to be checked');
+      });
+
+      it('fails when the actual does not match the expected', () => {
+        expect(
+          () => expect(wrapper.find('#not'), 'to be checked'),
+          'with error matching snapshot'
+        );
+
+        expect(() => {
+          expect(wrapper.find('#checked'), 'not to be checked');
+        }, 'with error matching snapshot');
+      });
+    });
   });
 });

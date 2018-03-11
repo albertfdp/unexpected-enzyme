@@ -1,10 +1,24 @@
 const ReactWrapper = require('enzyme/build/ReactWrapper').default;
+const ShallowWrapper = require('enzyme/build/ShallowWrapper').default;
 const UnexpectedHtmlLike = require('unexpected-htmllike');
 const magicpenPrism = require('magicpen-prism');
 const ReactElementAdapter = require('unexpected-htmllike-jsx-adapter');
+const $ = require('cheerio');
 
 const adapter = new ReactElementAdapter();
 const htmllike = new UnexpectedHtmlLike(adapter);
+
+const normalizeChildren = children => {
+  if (!children) {
+    return [];
+  }
+
+  if (Array.isArray(children)) {
+    return children;
+  }
+
+  return [children];
+};
 
 const unexpectedEnzyme = {
   name: 'unexpected-enzyme',
@@ -42,10 +56,8 @@ const unexpectedEnzyme = {
     });
 
     childExpect.exportType({
-      name: 'ReactWrapper',
-      identify: function(reactWrapper) {
-        return reactWrapper && reactWrapper instanceof ReactWrapper;
-      },
+      name: 'EnzymeWrapper',
+      identify: false,
       inspect: function(reactWrapper, depth, output, inspect) {
         if (!reactWrapper.exists()) {
           return output.jsKeyword('null');
@@ -55,9 +67,14 @@ const unexpectedEnzyme = {
           return output.appendItems(reactWrapper.map(node => node), '\n');
         }
 
+        const name = reactWrapper.name();
+        if (!name) {
+          return output.text(reactWrapper.text());
+        }
+
         const startTag = output.clone();
         startTag.text('<');
-        startTag.jsKeyword(reactWrapper.name());
+        startTag.jsKeyword(name);
 
         const props = reactWrapper.props();
         Object.keys(props).forEach(key => {
@@ -93,9 +110,13 @@ const unexpectedEnzyme = {
           }
         });
 
-        const children = reactWrapper.children();
+        let children = normalizeChildren(props.children);
+        const wrapperChildren = reactWrapper.children();
+        if (wrapperChildren.length >= children.length) {
+          children = wrapperChildren;
+        }
 
-        if (children.length === 0 && !props.children) {
+        if (children.length === 0) {
           startTag.text(' />');
           output.append(startTag);
         } else {
@@ -107,12 +128,12 @@ const unexpectedEnzyme = {
             .jsKeyword(reactWrapper.name())
             .text('>');
 
-          const hasTextChild =
-            children.length === 0 && props.children.length > 0;
-
-          const inspectedChildren = hasTextChild
-            ? [output.clone().text(reactWrapper.text())]
-            : children.map(child => inspect(child, Infinity));
+          const inspectedChildren = children.map(
+            child =>
+              typeof child === 'string'
+                ? output.clone().text(child)
+                : inspect(child, Infinity)
+          );
 
           const maxLineLength = Math.min(output.preferredWidth, 60);
 
@@ -150,6 +171,22 @@ const unexpectedEnzyme = {
       }
     });
 
+    childExpect.exportType({
+      name: 'ReactWrapper',
+      base: 'EnzymeWrapper',
+      identify: function(reactWrapper) {
+        return reactWrapper && reactWrapper instanceof ReactWrapper;
+      }
+    });
+
+    childExpect.exportType({
+      name: 'ShallowWrapper',
+      base: 'EnzymeWrapper',
+      identify: function(shallowWrapper) {
+        return shallowWrapper && shallowWrapper instanceof ShallowWrapper;
+      }
+    });
+
     childExpect.exportAssertion(
       '<ReactWrapper> [not] to be checked',
       (expect, reactWrapper) => {
@@ -158,7 +195,16 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to have type <string|function>',
+      '<ShallowWrapper> [not] to be checked',
+      (expect, shallowWrapper) => {
+        const element = $(shallowWrapper.html());
+
+        expect(element.is(':checked'), '[not] to be', true);
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<EnzymeWrapper> [not] to have type <string|function>',
       (expect, reactWrapper, type) => {
         if (typeof type === 'function') {
           expect.argsOutput[0] = output =>
@@ -170,7 +216,7 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> to render text satisfying <assertion>',
+      '<EnzymeWrapper> to render text satisfying <assertion>',
       (expect, reactWrapper) => {
         expect.errorMode = 'nested';
 
@@ -179,14 +225,14 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to render text <string>',
+      '<EnzymeWrapper> [not] to render text <string>',
       (expect, reactWrapper, text) => {
         expect(reactWrapper.text(), '[not] to equal', text);
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to contain <ReactElement>',
+      '<EnzymeWrapper> [not] to contain <ReactElement>',
       (expect, reactWrapper, reactElement) => {
         if (
           expect.flags.not ===
@@ -229,28 +275,28 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> to have state satisfying <object|null>',
+      '<EnzymeWrapper> to have state satisfying <object|null>',
       (expect, reactWrapper, state) => {
         return expect(reactWrapper.state(), 'to satisfy', state);
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> to have state satisfying <assertion>',
+      '<EnzymeWrapper> to have state satisfying <assertion>',
       (expect, reactWrapper) => {
         return expect.shift(reactWrapper.state());
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> to have context satisfying <object>',
+      '<EnzymeWrapper> to have context satisfying <object>',
       (expect, reactWrapper, context) => {
         return expect(reactWrapper.context(), 'to satisfy', context);
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to contain <string>',
+      '<EnzymeWrapper> [not] to contain <string>',
       (expect, reactWrapper, selector) => {
         return expect(
           reactWrapper.find(selector).exists(),
@@ -261,21 +307,21 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> to have props satisfying <object>',
+      '<EnzymeWrapper> to have props satisfying <object>',
       (expect, reactWrapper, props) => {
         return expect(reactWrapper.props(), 'to satisfy', props);
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to have props <array>',
+      '<EnzymeWrapper> [not] to have props <array>',
       (expect, reactWrapper, props) => {
         return expect(reactWrapper.props(), '[not] to have keys', props);
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> queried for <string> <assertion>',
+      '<EnzymeWrapper> queried for <string> <assertion>',
       (expect, reactWrapper, query) => {
         expect.errorMode = 'nested';
         return expect.shift(reactWrapper.find(query));
@@ -283,7 +329,7 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to [exhaustively] satisfy <ReactElement>',
+      '<EnzymeWrapper> [not] to [exhaustively] satisfy <ReactElement>',
       (expect, reactWrapper, reactElement) => {
         const exhaustively = expect.flags.exhaustively;
         const not = expect.flags.not;
@@ -325,7 +371,7 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> [not] to exist',
+      '<EnzymeWrapper> [not] to exist',
       (expect, reactWrapper) => {
         const exists = reactWrapper.exists();
         if (expect.flags.not && exists) {
@@ -343,28 +389,28 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> when setting props <object> <assertion>',
+      '<EnzymeWrapper> when setting props <object> <assertion>',
       (expect, reactWrapper, props) => {
         return expect.shift(reactWrapper.setProps(props));
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> when setting state <object> <assertion>',
+      '<EnzymeWrapper> when setting state <object> <assertion>',
       (expect, reactWrapper, props) => {
         return expect.shift(reactWrapper.setState(props));
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> when setting context <object> <assertion>',
+      '<EnzymeWrapper> when setting context <object> <assertion>',
       (expect, reactWrapper, props) => {
         return expect.shift(reactWrapper.setContext(props));
       }
     );
 
     childExpect.exportAssertion(
-      '<ReactWrapper> when receiving event <string>',
+      '<EnzymeWrapper> when receiving event <string>',
       (expect, reactWrapper, event) => {
         return expect.shift(reactWrapper.simulate(event));
       }

@@ -4,7 +4,9 @@ exports[`to-have-state-satisfying <assertion> fails when the actual does not mat
 "expected
 <Counter count={0}>
   <div className=\\"count\\">
-    <button className=\\"increment\\" onClick={function bound increment() { /* native code */ }}>
+    0
+    <button className=\\"increment\\"
+       onClick={function bound increment() { /* native code */ }}>
       Increment
     </button>
   </div>
@@ -16,7 +18,9 @@ exports[`to-have-state-satisfying <assertion> when negated fails when the actual
 "expected
 <Counter count={0}>
   <div className=\\"count\\">
-    <button className=\\"increment\\" onClick={function bound increment() { /* native code */ }}>
+    0
+    <button className=\\"increment\\"
+       onClick={function bound increment() { /* native code */ }}>
       Increment
     </button>
   </div>
@@ -28,7 +32,9 @@ exports[`to-have-state-satisfying <object> fails when the actual does not match 
 "expected
 <Counter count={0}>
   <div className=\\"count\\">
-    <button className=\\"increment\\" onClick={function bound increment() { /* native code */ }}>
+    0
+    <button className=\\"increment\\"
+       onClick={function bound increment() { /* native code */ }}>
       Increment
     </button>
   </div>

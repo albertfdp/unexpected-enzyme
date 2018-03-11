@@ -11,8 +11,8 @@ export default unexpected
   .clone()
   .use(unexpectedSinon)
   .use(unexpectedEnzyme)
-  .addAssertion('<any> to inspect as <string>', (expect, subject, value) => {
-    expect(expect.inspect(subject).toString(), 'to equal', value);
+  .addAssertion('<any> when inspected <assertion>', (expect, subject) => {
+    return expect.shift(expect.inspect(subject).toString());
   })
   .addAssertion('<any> to match snapshot', (expect, subject) => {
     jestExpect(subject).toMatchSnapshot();
