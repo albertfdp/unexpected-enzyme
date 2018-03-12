@@ -337,46 +337,54 @@ const unexpectedEnzyme = {
       }
     );
 
-    childExpect.exportAssertion(
-      '<EnzymeWrapper> [not] to [exhaustively] satisfy <ReactElement>',
-      (expect, reactWrapper, reactElement) => {
-        const exhaustively = expect.flags.exhaustively;
-        const not = expect.flags.not;
-        const matches = exhaustively
-          ? expect.equal(reactWrapper.getElement(), reactElement)
-          : reactWrapper.matchesElement(reactElement);
+    const toSatisfyHandler = (expect, reactWrapper, reactElement) => {
+      const exhaustively = expect.flags.exhaustively;
+      const not = expect.flags.not;
+      const matches = exhaustively
+        ? expect.equal(reactWrapper.getElement(), reactElement)
+        : reactWrapper.matchesElement(reactElement);
 
-        if (not === matches) {
-          if (not) {
-            expect.fail();
-          }
-
-          const diffResult = htmllike.diff(
-            adapter,
-            reactWrapper.getElement(),
-            reactElement,
-            expect,
-            exhaustively
-              ? {}
-              : {
-                  diffExtraAttributes: false,
-                  diffExtraChildren: false
-                }
-          );
-
-          return htmllike.withResult(diffResult, result => {
-            if (result.weight !== 0) {
-              return expect.fail({
-                diff: function(output, diff, inspect) {
-                  return {
-                    diff: htmllike.render(result, output, diff, inspect)
-                  };
-                }
-              });
-            }
-          });
+      if (not === matches) {
+        if (not) {
+          expect.fail();
         }
+
+        const diffResult = htmllike.diff(
+          adapter,
+          reactWrapper.getElement(),
+          reactElement,
+          expect,
+          exhaustively
+            ? {}
+            : {
+                diffExtraAttributes: false,
+                diffExtraChildren: false
+              }
+        );
+
+        return htmllike.withResult(diffResult, result => {
+          if (result.weight !== 0) {
+            return expect.fail({
+              diff: function(output, diff, inspect) {
+                return {
+                  diff: htmllike.render(result, output, diff, inspect)
+                };
+              }
+            });
+          }
+        });
       }
+    };
+
+    childExpect.exportAssertion(
+      '<ShallowWrapper> [not] to [exhaustively] satisfy <ReactElement>',
+      toSatisfyHandler
+    );
+
+    childExpect.exportAssertion(
+      '<ReactWrapper> [not] to [exhaustively] satisfy <ReactElement>',
+      (expect, reactWrapper, reactElement) =>
+        toSatisfyHandler(expect, reactWrapper.children(), reactElement)
     );
 
     childExpect.exportAssertion(

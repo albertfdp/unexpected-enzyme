@@ -16,11 +16,8 @@ queried for '#parent' to satisfy <div><div id=\\"child\\">Foo</div></div>
   </div>
   to satisfy <div><div id=\\"child\\">Foo</div></div>
 
-  <div id=\\"parent\\" className=\\"old friendly\\">
-    <div id=\\"child\\">
-      Children // -Children
-               // +Foo
-    </div>
+  <div id=\\"child\\">
+    Children // should be <div id=\\"child\\">Foo</div>
   </div>"
 `;
 
