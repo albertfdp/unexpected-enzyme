@@ -31,9 +31,7 @@ describe('queried-for', () => {
           'queried for',
           '#parent',
           'to satisfy',
-          <div className="old friendly">
-            <div id="child">Children</div>
-          </div>
+          <div id="child">Children</div>
         );
       });
 
