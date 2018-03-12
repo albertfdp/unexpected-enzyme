@@ -82,10 +82,14 @@ const unexpectedEnzyme = {
             return;
           }
 
-          startTag.sp().text(`${key}`);
-
           const value = props[key];
           const valueType = typeof value;
+          if (valueType === 'undefined') {
+            return;
+          }
+
+          startTag.sp().text(`${key}`);
+
           switch (valueType) {
             case 'string':
               startTag
@@ -108,7 +112,7 @@ const unexpectedEnzyme = {
             default:
               startTag
                 .text('={')
-                .appendInspected(value)
+                .append(inspect(value, 1))
                 .text('}');
           }
         });
