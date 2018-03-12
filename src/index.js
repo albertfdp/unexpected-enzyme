@@ -102,6 +102,9 @@ const unexpectedEnzyme = {
                   .text('}');
               }
               break;
+            case 'function':
+              startTag.text('={...}');
+              break;
             default:
               startTag
                 .text('={')
