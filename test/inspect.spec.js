@@ -52,6 +52,18 @@ describe('inspect', () => {
           '<div>foo<div />bar<div />baz</div>'
         );
       });
+
+      it('handels function props', () => {
+        const myHandler = () => {
+          // clicked
+        };
+
+        expect(
+          render(<button onClick={myHandler}>Click me!</button>),
+          'when inspected to equal',
+          '<button onClick={...}>Click me!</button>'
+        );
+      });
     });
   });
 });
