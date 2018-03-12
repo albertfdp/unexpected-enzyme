@@ -14,6 +14,32 @@ User.propTypes = {
   children: PropTypes.node
 };
 
+const Bar = () => (
+  <div>
+    <span>Name</span>
+  </div>
+);
+
+const Foo = ({ children }) => <div>{children}</div>;
+
+Foo.propTypes = {
+  children: PropTypes.node
+};
+
+const Parent = ({ children }) => <div>{children}</div>;
+
+Parent.propTypes = {
+  children: PropTypes.node
+};
+
+const Nested = () => (
+  <Parent>
+    <Foo>
+      <Bar />
+    </Foo>
+  </Parent>
+);
+
 describe('to-satisfy', () => {
   describe('when it is a subtree', () => {
     it('passes when the actual matches the expected', () => {
@@ -29,6 +55,20 @@ describe('to-satisfy', () => {
         <User>
           <div>Children</div>
         </User>
+      );
+    });
+
+    it('passes when it is nested multiple levels', () => {
+      const rendered = mount(<Nested />);
+
+      expect(
+        rendered,
+        'to satisfy',
+        <Parent>
+          <Foo>
+            <Bar />
+          </Foo>
+        </Parent>
       );
     });
 
