@@ -60,7 +60,7 @@ const unexpectedEnzyme = {
       identify: false,
       inspect: function(reactWrapper, depth, output, inspect) {
         if (!reactWrapper.exists()) {
-          return output.jsKeyword('null');
+          return output.appendInspected(null);
         }
 
         if (reactWrapper.length > 1) {
@@ -73,8 +73,8 @@ const unexpectedEnzyme = {
         }
 
         const startTag = output.clone();
-        startTag.text('<');
-        startTag.jsKeyword(name);
+        startTag.prismPunctuation('<');
+        startTag.prismTag(name);
 
         const props = reactWrapper.props();
         Object.keys(props).forEach(key => {
@@ -82,34 +82,40 @@ const unexpectedEnzyme = {
             return;
           }
 
-          startTag.sp().text(`${key}`);
-
           const value = props[key];
           const valueType = typeof value;
+          if (valueType === 'undefined') {
+            return;
+          }
+
+          startTag.sp().text(`${key}`);
+
           switch (valueType) {
             case 'string':
               startTag
-                .text('=')
-                .jsString('"')
-                .jsString(value)
-                .jsString('"');
+                .prismPunctuation('="')
+                .prismAttrValue(value)
+                .prismPunctuation('"');
+              break;
+            case 'function':
+              startTag
+                .prismPunctuation('={')
+                .text('...')
+                .prismPunctuation('}');
               break;
             case 'boolean':
               if (!value) {
                 startTag
-                  .text('={')
-                  .jsPrimitive(value)
-                  .text('}');
+                  .prismPunctuation('={')
+                  .appendInspected(value)
+                  .prismPunctuation('}');
               }
-              break;
-            case 'function':
-              startTag.text('={...}');
               break;
             default:
               startTag
-                .text('={')
-                .appendInspected(value)
-                .text('}');
+                .prismPunctuation('={')
+                .append(inspect(value, 1))
+                .prismPunctuation('}');
           }
         });
 
@@ -120,16 +126,16 @@ const unexpectedEnzyme = {
         }
 
         if (children.length === 0) {
-          startTag.text(' />');
+          startTag.prismPunctuation(' />');
           output.append(startTag);
         } else {
-          startTag.text('>');
+          startTag.prismPunctuation('>');
 
           const endTag = output
             .clone()
-            .text('</')
-            .jsKeyword(reactWrapper.name())
-            .text('>');
+            .prismPunctuation('</')
+            .prismTag(reactWrapper.name())
+            .prismPunctuation('>');
 
           const inspectedChildren = children.map(
             child =>

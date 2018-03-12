@@ -1,5 +1,6 @@
 import expect from './unexpected-enzyme';
 import React from 'react';
+import PropTypes from 'prop-types';
 import enzyme from 'enzyme';
 
 describe('inspect', () => {
@@ -11,11 +12,11 @@ describe('inspect', () => {
     });
 
     describe(`with ${type}`, () => {
-      it('handels an element without any children', () => {
+      it('handles an element without any children', () => {
         expect(render(<div />), 'when inspected to equal', '<div />');
       });
 
-      it('handels an element with a single text child', () => {
+      it('handles an element with a single text child', () => {
         expect(
           render(<div>single</div>),
           'when inspected to equal',
@@ -23,7 +24,7 @@ describe('inspect', () => {
         );
       });
 
-      it('handels multiple text childrens', () => {
+      it('handles multiple text childrens', () => {
         expect(
           render(
             <div>
@@ -37,7 +38,7 @@ describe('inspect', () => {
         );
       });
 
-      it('handels multiple text childrens mixed with elements', () => {
+      it('handles multiple text childrens mixed with elements', () => {
         expect(
           render(
             <div>
@@ -53,7 +54,7 @@ describe('inspect', () => {
         );
       });
 
-      it('handels function props', () => {
+      it('handles function props', () => {
         const myHandler = () => {
           // clicked
         };
@@ -64,6 +65,63 @@ describe('inspect', () => {
           '<button onClick={...}>Click me!</button>'
         );
       });
+
+      it('does not render undefined props', () => {
+        expect(
+          render(<div id="undefined" className={undefined} />),
+          'when inspected to equal',
+          '<div id="undefined" />'
+        );
+      });
     });
+  });
+
+  it('dot out deeply nested props', () => {
+    const ConfigProvider = () => <div />; // fake
+
+    expect(
+      enzyme.mount(
+        <ConfigProvider config={{ nested: { deeply: { nested: 'value' } } }}>
+          <div />
+        </ConfigProvider>
+      ),
+      'when inspected to equal',
+      [
+        '<ConfigProvider config={{ nested: ... }}>',
+        '  <div />',
+        '</ConfigProvider>'
+      ].join('\n')
+    );
+  });
+
+  it('does not dot out props containing react nodes', () => {
+    const Fullname = ({ firstName, lastName }) => (
+      <div>
+        <div>{firstName}</div>
+        <div>{lastName}</div>
+      </div>
+    );
+    Fullname.propTypes = {
+      firstName: PropTypes.node,
+      lastName: PropTypes.node
+    };
+
+    expect(
+      enzyme.mount(
+        <Fullname
+          firstName={<span>Sune</span>}
+          lastName={<span>Simonsen</span>}
+        />
+      ),
+      'when inspected to equal',
+      [
+        '<Fullname firstName={<span>Sune</span>} lastName={<span>Simonsen</span>}>',
+        '  <div>',
+        '    <div><span>Sune</span></div>',
+        '    <div><span>Simonsen</span></div>',
+        '  </div>',
+        '</Fullname>'
+      ].join('\n')
+    );
   });
 });
