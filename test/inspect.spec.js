@@ -12,11 +12,11 @@ describe('inspect', () => {
     });
 
     describe(`with ${type}`, () => {
-      it('handels an element without any children', () => {
+      it('handles an element without any children', () => {
         expect(render(<div />), 'when inspected to equal', '<div />');
       });
 
-      it('handels an element with a single text child', () => {
+      it('handles an element with a single text child', () => {
         expect(
           render(<div>single</div>),
           'when inspected to equal',
@@ -24,7 +24,7 @@ describe('inspect', () => {
         );
       });
 
-      it('handels multiple text childrens', () => {
+      it('handles multiple text childrens', () => {
         expect(
           render(
             <div>
@@ -38,7 +38,7 @@ describe('inspect', () => {
         );
       });
 
-      it('handels multiple text childrens mixed with elements', () => {
+      it('handles multiple text childrens mixed with elements', () => {
         expect(
           render(
             <div>
@@ -54,7 +54,7 @@ describe('inspect', () => {
         );
       });
 
-      it('handels function props', () => {
+      it('handles function props', () => {
         const myHandler = () => {
           // clicked
         };
