@@ -88,7 +88,7 @@ const unexpectedEnzyme = {
             return;
           }
 
-          startTag.sp().text(`${key}`);
+          startTag.sp().prismAttrName(`${key}`);
 
           switch (valueType) {
             case 'string':
