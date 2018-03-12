@@ -8,14 +8,15 @@ exports[`to-satisfy when it is a subtree fails when the actual does not the expe
     <div id=\\"child\\">Foo</div>
   </div>
 </User>
-to satisfy <User><div id=\\"child\\">Children</div></User>
+to satisfy <div className=\\"user\\"><h3 id=\\"name\\">Harriet</h3><div id=\\"child\\">Children</div></div>
 
-<User>
+<div className=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
   <div id=\\"child\\">
     Foo // -Foo
         // +Children
   </div>
-</User>"
+</div>"
 `;
 
 exports[`to-satisfy when it is a subtree fails when the actual not matching the expected type 1`] = `
@@ -28,13 +29,14 @@ exports[`to-satisfy when it is a subtree fails when the actual not matching the 
 </User>
 to satisfy <h3>Header</h3>
 
-<User // should be <h3
->
-  <div id=\\"child\\"> // wrapper should be removed
-    Foo // -Foo
-        // +Header
-  </div> // wrapper should be removed
-</User>"
+<div // should be <h3
+   className=\\"user\\">
+  <h3 id=\\"name\\"> // wrapper should be removed
+    Harriet // -Harriet
+            // +Header
+  </h3> // wrapper should be removed
+  <div id=\\"child\\">Foo</div>
+</div>"
 `;
 
 exports[`to-satisfy with the exhaustively flag fails when the actual does not match the expected 1`] = `
@@ -45,18 +47,17 @@ exports[`to-satisfy with the exhaustively flag fails when the actual does not ma
     <div id=\\"child\\">Children</div>
   </div>
 </User>
-to exhaustively satisfy <User><div id=\\"kids\\">Kids</div></User>
+to exhaustively satisfy <div id=\\"kids\\">Kids</div>
 
-<User>
-  <div id=\\"child\\" // expected 'child' to equal 'kids'
-                  //
-                  // -child
-                  // +kids
-  >
-    Children // -Children
-             // +Kids
-  </div>
-</User>"
+<div className=\\"user\\" // className should be removed
+   // missing id=\\"kids\\"
+>
+  <h3 id=\\"name\\"> // wrapper should be removed
+    Harriet // -Harriet
+            // +Kids
+  </h3> // wrapper should be removed
+  <div id=\\"child\\">Children</div> // should be removed
+</div>"
 `;
 
 exports[`to-satisfy with the exhaustively flag when negated fails when actual is equal the expected 1`] = `
@@ -67,5 +68,5 @@ exports[`to-satisfy with the exhaustively flag when negated fails when actual is
     <div id=\\"child\\">Children</div>
   </div>
 </User>
-not to exhaustively satisfy <User><div id=\\"child\\">Children</div></User>"
+not to exhaustively satisfy <div className=\\"user\\"><h3 id=\\"name\\">Harriet</h3><div id=\\"child\\">Children</div></div>"
 `;

@@ -26,9 +26,10 @@ describe('to-satisfy', () => {
       expect(
         wrapper,
         'to satisfy',
-        <User>
-          <div>Children</div>
-        </User>
+        <div className="user">
+          <h3 id="name">Harriet</h3>
+          <div id="child">Children</div>
+        </div>
       );
     });
 
@@ -44,9 +45,10 @@ describe('to-satisfy', () => {
           expect(
             wrapper,
             'to satisfy',
-            <User>
+            <div className="user">
+              <h3 id="name">Harriet</h3>
               <div id="child">Children</div>
-            </User>
+            </div>
           ),
         'with error matching snapshot'
       );
@@ -75,9 +77,10 @@ describe('to-satisfy', () => {
           </User>
         ),
         'to exhaustively satisfy',
-        <User>
+        <div className="user">
+          <h3 id="name">Harriet</h3>
           <div id="child">Children</div>
-        </User>
+        </div>
       ));
 
     it('fails when the actual does not match the expected', () =>
@@ -90,9 +93,7 @@ describe('to-satisfy', () => {
               </User>
             ),
             'to exhaustively satisfy',
-            <User>
-              <div id="kids">Kids</div>
-            </User>
+            <div id="kids">Kids</div>
           ),
         'with error matching snapshot'
       ));
@@ -106,9 +107,10 @@ describe('to-satisfy', () => {
             </User>
           ),
           'not to exhaustively satisfy',
-          <User>
+          <div className="user">
+            <h3 id="name">Harriet</h3>
             <div id="kids">Kids</div>
-          </User>
+          </div>
         ));
 
       it('fails when actual is equal the expected', () =>
@@ -121,9 +123,10 @@ describe('to-satisfy', () => {
                 </User>
               ),
               'not to exhaustively satisfy',
-              <User>
+              <div className="user">
+                <h3 id="name">Harriet</h3>
                 <div id="child">Children</div>
-              </User>
+              </div>
             ),
           'with error matching snapshot'
         ));
