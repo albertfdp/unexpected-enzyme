@@ -26,6 +26,23 @@ describe('to-satisfy', () => {
       expect(
         wrapper,
         'to satisfy',
+        <div className="user">
+          <h3 id="name">Harriet</h3>
+          <div>Children</div>
+        </div>
+      );
+    });
+
+    it('passes when the actual matches the expected when matching against a custom element', () => {
+      const wrapper = mount(
+        <User>
+          <div id="child">Children</div>
+        </User>
+      );
+
+      expect(
+        wrapper,
+        'to satisfy',
         <User>
           <div>Children</div>
         </User>
@@ -44,9 +61,10 @@ describe('to-satisfy', () => {
           expect(
             wrapper,
             'to satisfy',
-            <User>
+            <div className="user">
+              <h3 id="name">Harriet</h3>
               <div id="child">Children</div>
-            </User>
+            </div>
           ),
         'with error matching snapshot'
       );
@@ -75,9 +93,10 @@ describe('to-satisfy', () => {
           </User>
         ),
         'to exhaustively satisfy',
-        <User>
+        <div className="user">
+          <h3 id="name">Harriet</h3>
           <div id="child">Children</div>
-        </User>
+        </div>
       ));
 
     it('fails when the actual does not match the expected', () =>
@@ -90,9 +109,10 @@ describe('to-satisfy', () => {
               </User>
             ),
             'to exhaustively satisfy',
-            <User>
+            <div className="user">
+              <h3>Harriet</h3>
               <div id="kids">Kids</div>
-            </User>
+            </div>
           ),
         'with error matching snapshot'
       ));
