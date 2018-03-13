@@ -1,7 +1,14 @@
 import expect from './unexpected-enzyme';
-import React from 'react';
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 import enzyme from 'enzyme';
+
+const ReverseChildren = ({ children }) => (
+  <div>{Children.toArray(children).reverse()}</div>
+);
+ReverseChildren.propTypes = {
+  children: PropTypes.node
+};
 
 describe('inspect', () => {
   ['mount', 'shallow'].forEach(type => {
@@ -121,6 +128,26 @@ describe('inspect', () => {
         '    <div><span>Simonsen</span></div>',
         '  </div>',
         '</Fullname>'
+      ].join('\n')
+    );
+  });
+
+  it('inspects children as they are written', () => {
+    expect(
+      enzyme.mount(
+        <ReverseChildren>
+          <span>One</span>
+          <span>Two</span>
+          <span>Three</span>
+        </ReverseChildren>
+      ),
+      'when inspected to equal',
+      [
+        '<ReverseChildren>',
+        '  <span>One</span>',
+        '  <span>Two</span>',
+        '  <span>Three</span>',
+        '</ReverseChildren>'
       ].join('\n')
     );
   });
