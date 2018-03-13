@@ -2,18 +2,11 @@
 
 exports[`queried-for mount fails when the actual does not match the expected 1`] = `
 "expected
-<Fixture>
-  <div>
-    <div id=\\"parent\\" className=\\"old friendly\\">
-      <div id=\\"child\\">Children</div>
-    </div>
-  </div>
-</Fixture>
+<div>
+  <div class=\\"old friendly\\" id=\\"parent\\"><div id=\\"child\\">Children</div></div>
+</div>
 queried for '#parent' to satisfy <div><div id=\\"child\\">Foo</div></div>
-  expected
-  <div id=\\"parent\\" className=\\"old friendly\\">
-    <div id=\\"child\\">Children</div>
-  </div>
+  expected <div class=\\"old friendly\\" id=\\"parent\\"><div id=\\"child\\">Children</div></div>
   to satisfy <div><div id=\\"child\\">Foo</div></div>
 
   <div id=\\"parent\\" className=\\"old friendly\\">

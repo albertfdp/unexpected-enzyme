@@ -3,17 +3,16 @@
 exports[`to-exist mount fails when the actual does not match the expected 1`] = `
 "Element did not exist in:
 
-<Fixture><div><div id=\\"parent\\" /></div></Fixture>"
+<div><div id=\\"parent\\"></div></div>"
 `;
 
-exports[`to-exist mount fails when the actual negated matches the expected 1`] = `"expected <div id=\\"parent\\" /> not to exist"`;
+exports[`to-exist mount fails when the actual negated matches the expected 1`] = `"expected <div id=\\"parent\\"></div> not to exist"`;
 
 exports[`to-exist mount with queried for fails when the actual does not match the expected 1`] = `
-"expected <Fixture><div><div id=\\"parent\\" /></div></Fixture>
-queried for '#foobar' to exist
+"expected <div><div id=\\"parent\\"></div></div> queried for '#foobar' to exist
   Element did not exist in:
 
-  <Fixture><div><div id=\\"parent\\" /></div></Fixture>"
+  <div><div id=\\"parent\\"></div></div>"
 `;
 
 exports[`to-exist shallow fails when the actual does not match the expected 1`] = `

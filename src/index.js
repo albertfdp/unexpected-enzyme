@@ -1,6 +1,6 @@
-const ReactWrapper = require('enzyme/build/ReactWrapper').default;
-const ShallowWrapper = require('enzyme/build/ShallowWrapper').default;
+const { ReactWrapper, ShallowWrapper } = require('enzyme');
 const UnexpectedHtmlLike = require('unexpected-htmllike');
+const unexpectedDom = require('unexpected-dom');
 const magicpenPrism = require('magicpen-prism');
 const ReactElementAdapter = require('unexpected-htmllike-jsx-adapter');
 const $ = require('cheerio');
@@ -25,7 +25,8 @@ const unexpectedEnzyme = {
 
   installInto: function(expect) {
     const childExpect = expect.child();
-    childExpect.installPlugin(magicpenPrism);
+    childExpect.use(magicpenPrism);
+    childExpect.use(unexpectedDom);
 
     childExpect.exportType({
       name: 'ReactElement',
@@ -185,6 +186,17 @@ const unexpectedEnzyme = {
       base: 'EnzymeWrapper',
       identify: function(reactWrapper) {
         return reactWrapper && reactWrapper instanceof ReactWrapper;
+      },
+      inspect: function(reactWrapper, depth, output) {
+        if (!reactWrapper.exists()) {
+          return output.appendInspected(null);
+        }
+
+        if (reactWrapper.length > 1) {
+          return output.appendItems(reactWrapper.map(node => node), '\n');
+        }
+
+        return childExpect.inspect(reactWrapper.getDOMNode(), 10, output);
       }
     });
 

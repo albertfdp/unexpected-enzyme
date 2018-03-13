@@ -2,25 +2,15 @@
 
 exports[`to-contain <ReactElement> fails when the actual does not match the expected 1`] = `
 "expected
-<Fixture>
-  <div>
-    <ul>
-      <li>
-        <User id={1} name=\\"John\\">
-          <span className=\\"user\\" id=\\"user-1\\">User 1</span>
-        </User>
-      </li>
-      <li>
-        <User id={2} name=\\"Doe\\">
-          <span className=\\"user\\" id=\\"user-2\\">User 2</span>
-        </User>
-        <User id={3} name=\\"Mark\\">
-          <span className=\\"user\\" id=\\"user-3\\">User 3</span>
-        </User>
-      </li>
-    </ul>
-  </div>
-</Fixture>
+<div>
+  <ul>
+    <li><span class=\\"user\\" id=\\"user-1\\">User1</span></li>
+    <li>
+      <span class=\\"user\\" id=\\"user-2\\">User2</span>
+      <span class=\\"user\\" id=\\"user-3\\">User3</span>
+    </li>
+  </ul>
+</div>
 to contain <User id={4} />
 
 the best match was
@@ -31,25 +21,15 @@ the best match was
 
 exports[`to-contain <ReactElement> when negated fails when the actual does match the expected 1`] = `
 "expected
-<Fixture>
-  <div>
-    <ul>
-      <li>
-        <User id={1} name=\\"John\\">
-          <span className=\\"user\\" id=\\"user-1\\">User 1</span>
-        </User>
-      </li>
-      <li>
-        <User id={2} name=\\"Doe\\">
-          <span className=\\"user\\" id=\\"user-2\\">User 2</span>
-        </User>
-        <User id={3} name=\\"Mark\\">
-          <span className=\\"user\\" id=\\"user-3\\">User 3</span>
-        </User>
-      </li>
-    </ul>
-  </div>
-</Fixture>
+<div>
+  <ul>
+    <li><span class=\\"user\\" id=\\"user-1\\">User1</span></li>
+    <li>
+      <span class=\\"user\\" id=\\"user-2\\">User2</span>
+      <span class=\\"user\\" id=\\"user-3\\">User3</span>
+    </li>
+  </ul>
+</div>
 not to contain <User id={2} />
 
 but found the following match
@@ -60,24 +40,14 @@ but found the following match
 
 exports[`to-contain <selector> fails when the actual does not match the expected 1`] = `
 "expected
-<Fixture>
-  <div>
-    <ul>
-      <li>
-        <User id={1} name=\\"John\\">
-          <span className=\\"user\\" id=\\"user-1\\">User 1</span>
-        </User>
-      </li>
-      <li>
-        <User id={2} name=\\"Doe\\">
-          <span className=\\"user\\" id=\\"user-2\\">User 2</span>
-        </User>
-        <User id={3} name=\\"Mark\\">
-          <span className=\\"user\\" id=\\"user-3\\">User 3</span>
-        </User>
-      </li>
-    </ul>
-  </div>
-</Fixture>
+<div>
+  <ul>
+    <li><span class=\\"user\\" id=\\"user-1\\">User1</span></li>
+    <li>
+      <span class=\\"user\\" id=\\"user-2\\">User2</span>
+      <span class=\\"user\\" id=\\"user-3\\">User3</span>
+    </li>
+  </ul>
+</div>
 to contain '#user-4'"
 `;
