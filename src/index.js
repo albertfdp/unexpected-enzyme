@@ -1,6 +1,6 @@
-const ReactWrapper = require('enzyme/build/ReactWrapper').default;
-const ShallowWrapper = require('enzyme/build/ShallowWrapper').default;
+const { mount, ReactWrapper, ShallowWrapper } = require('enzyme');
 const UnexpectedHtmlLike = require('unexpected-htmllike');
+const unexpectedDom = require('unexpected-dom');
 const magicpenPrism = require('magicpen-prism');
 const ReactElementAdapter = require('unexpected-htmllike-jsx-adapter');
 const $ = require('cheerio');
@@ -25,7 +25,8 @@ const unexpectedEnzyme = {
 
   installInto: function(expect) {
     const childExpect = expect.child();
-    childExpect.installPlugin(magicpenPrism);
+    childExpect.use(magicpenPrism);
+    childExpect.use(unexpectedDom);
 
     childExpect.exportType({
       name: 'ReactElement',
@@ -57,7 +58,34 @@ const unexpectedEnzyme = {
 
     childExpect.exportType({
       name: 'EnzymeWrapper',
-      identify: false,
+      identify: false
+    });
+
+    childExpect.exportType({
+      name: 'ReactWrapper',
+      base: 'EnzymeWrapper',
+      identify: function(reactWrapper) {
+        return reactWrapper && reactWrapper instanceof ReactWrapper;
+      },
+      inspect: function(reactWrapper, depth, output) {
+        if (!reactWrapper.exists()) {
+          return output.appendInspected(null);
+        }
+
+        if (reactWrapper.length > 1) {
+          return output.appendItems(reactWrapper.map(node => node), '\n');
+        }
+
+        return childExpect.inspect(reactWrapper.getDOMNode(), 10, output);
+      }
+    });
+
+    childExpect.exportType({
+      name: 'ShallowWrapper',
+      base: 'EnzymeWrapper',
+      identify: function(shallowWrapper) {
+        return shallowWrapper && shallowWrapper instanceof ShallowWrapper;
+      },
       inspect: function(reactWrapper, depth, output, inspect) {
         if (!reactWrapper.exists()) {
           return output.appendInspected(null);
@@ -177,22 +205,6 @@ const unexpectedEnzyme = {
 
           output.append(endTag);
         }
-      }
-    });
-
-    childExpect.exportType({
-      name: 'ReactWrapper',
-      base: 'EnzymeWrapper',
-      identify: function(reactWrapper) {
-        return reactWrapper && reactWrapper instanceof ReactWrapper;
-      }
-    });
-
-    childExpect.exportType({
-      name: 'ShallowWrapper',
-      base: 'EnzymeWrapper',
-      identify: function(shallowWrapper) {
-        return shallowWrapper && shallowWrapper instanceof ShallowWrapper;
       }
     });
 
@@ -338,7 +350,19 @@ const unexpectedEnzyme = {
     );
 
     childExpect.exportAssertion(
-      '<EnzymeWrapper> [not] to [exhaustively] satisfy <ReactElement>',
+      '<ReactWrapper> [not] to [exhaustively] satisfy <ReactElement>',
+      (expect, reactWrapper, reactElement) => {
+        expect.errorMode = 'bubble';
+        return expect(
+          reactWrapper.getDOMNode(),
+          '[not] to [exhaustively] satisfy',
+          mount(reactElement).getDOMNode()
+        );
+      }
+    );
+
+    childExpect.exportAssertion(
+      '<ShallowWrapper> [not] to [exhaustively] satisfy <ReactElement>',
       (expect, reactWrapper, reactElement) => {
         const exhaustively = expect.flags.exhaustively;
         const not = expect.flags.not;

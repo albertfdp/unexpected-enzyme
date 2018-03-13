@@ -2,70 +2,74 @@
 
 exports[`to-satisfy when it is a subtree fails when the actual does not the expected 1`] = `
 "expected
-<User>
-  <div className=\\"user\\">
-    <h3 id=\\"name\\">Harriet</h3>
-    <div id=\\"child\\">Foo</div>
-  </div>
-</User>
-to satisfy <User><div id=\\"child\\">Children</div></User>
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
+  <div id=\\"child\\">Foo</div>
+</div>
+to satisfy
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
+  <div id=\\"child\\">Children</div>
+</div>
 
-<User>
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
   <div id=\\"child\\">
-    Foo // -Foo
+    Foo // should equal 'Children'
+        //
+        // -Foo
         // +Children
   </div>
-</User>"
+</div>"
 `;
 
 exports[`to-satisfy when it is a subtree fails when the actual not matching the expected type 1`] = `
 "expected
-<User>
-  <div className=\\"user\\">
-    <h3 id=\\"name\\">Harriet</h3>
-    <div id=\\"child\\">Foo</div>
-  </div>
-</User>
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
+  <div id=\\"child\\">Foo</div>
+</div>
 to satisfy <h3>Header</h3>
 
-<User // should be <h3
->
-  <div id=\\"child\\"> // wrapper should be removed
-    Foo // -Foo
-        // +Header
-  </div> // wrapper should be removed
-</User>"
+<div // should equal 'h3'
+     class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3> // should satisfy Header
+  <div id=\\"child\\">Foo</div> // should be removed
+</div>"
 `;
 
 exports[`to-satisfy with the exhaustively flag fails when the actual does not match the expected 1`] = `
 "expected
-<User>
-  <div className=\\"user\\">
-    <h3 id=\\"name\\">Harriet</h3>
-    <div id=\\"child\\">Children</div>
-  </div>
-</User>
-to exhaustively satisfy <User><div id=\\"kids\\">Kids</div></User>
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
+  <div id=\\"child\\">Children</div>
+</div>
+to exhaustively satisfy <div class=\\"user\\"><h3>Harriet</h3><div id=\\"kids\\">Kids</div></div>
 
-<User>
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
   <div id=\\"child\\" // expected 'child' to equal 'kids'
                   //
                   // -child
                   // +kids
   >
-    Children // -Children
+    Children // should equal 'Kids'
+             //
+             // -Children
              // +Kids
   </div>
-</User>"
+</div>"
 `;
 
 exports[`to-satisfy with the exhaustively flag when negated fails when actual is equal the expected 1`] = `
 "expected
-<User>
-  <div className=\\"user\\">
-    <h3 id=\\"name\\">Harriet</h3>
-    <div id=\\"child\\">Children</div>
-  </div>
-</User>
-not to exhaustively satisfy <User><div id=\\"child\\">Children</div></User>"
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
+  <div id=\\"child\\">Children</div>
+</div>
+not to exhaustively satisfy
+<div class=\\"user\\">
+  <h3 id=\\"name\\">Harriet</h3>
+  <div id=\\"child\\">Children</div>
+</div>"
 `;
